@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+enum ClubRole {
+  OWNER
+  MEMBER
+  ADMIN
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
+}
+
+model User {
+  id               String   @id @default(uuid())
+  telegramId       String   @unique
+  username         String?
+  firstName        String?
+  canCreateClub    Boolean
+
+  ownedClub        Club?           // владелец клуба (1:1)
+  memberships      Membership[]    // членство в клубах
+  bans             Ban[]           // записи в банлистах клубов
+}
+
+model Club {
+  id               String @id @default(uuid())
+  name             String
+  description      String
+  createdAt        DateTime @default(now())
+  isOpen           Boolean
+
+// связь с владельцем
+  ownerId          String   @unique
+  owner            User    @relation(fields: [ownerId], references: [id])
+
+  // участники и админы
+  members          Membership[]
+  bans             Ban[]
+}
+
+model Membership {
+  id               String   @id @default(uuid())
+  userId           String
+  clubId           String
+  role             ClubRole @default(MEMBER)
+  joinedAt         DateTime @default(now())
+
+  user             User @relation(fields: [userId], references: [id])
+  club             Club @relation(fields: [clubId], references: [id])
+
+  @@unique([userId, clubId]) // нельзя дважды вступить в один клуб
+}
+
+model Ban {
+  id               String   @id @default(uuid())
+  clubId           String
+  userId           String
+  reason           String?
+  bannedAt         DateTime @default(now())
+
+  club             Club @relation(fields: [clubId], references: [id])
+  user             User @relation(fields: [userId], references: [id])
+
+  @@unique([clubId, userId]) // нельзя забанить дважды
+}
