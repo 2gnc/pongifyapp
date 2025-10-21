@@ -23,7 +23,7 @@ datasource db {
 model User {
   id               String   @id @default(uuid())
   telegramId       String   @unique
-  username         String?
+  userName         String?
   firstName        String?
   canCreateClub    Boolean
 

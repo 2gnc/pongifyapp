@@ -1,64 +1,47 @@
-'use client';
 
-import { Section, Cell, Image, List } from '@telegram-apps/telegram-ui';
-import { useTranslations } from 'next-intl';
+import { InitDataProvider } from "@/components/InitDataprovider";
+import { verifyTelegramInitData } from "@/entities/user/model/telegram-init-data";
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import ErrorPage from './error';
+import { getUserWithOwnedClub, createUser } from '@/entities/user';
 
-import { Link } from '@/components/Link/Link';
-import { LocaleSwitcher } from '@/components/LocaleSwitcher/LocaleSwitcher';
-import { Page } from '@/components/Page';
 
-import tonSvg from './_assets/ton.svg';
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
+  const params = await searchParams;
+  const initData = params.initData;
+  const cookiesData = await cookies();
+  const user = cookiesData.get('user')?.value;
 
-export default function Home() {
-  const t = useTranslations('i18n');
+  if (!initData || !user) {
+    return <InitDataProvider />;
+  }
 
-  return (
-    <Page back={false}>
-      
-      {/* <List>
-        <Section
-          header="Features"
-          footer="You can use these pages to learn more about features, provided by Telegram Mini Apps and other useful projects"
-        >
-          <Link href="/ton-connect">
-            <Cell
-              before={
-                <Image
-                  src={tonSvg.src}
-                  style={{ backgroundColor: '#007AFF' }}
-                  alt="TON Logo"
-                />
-              }
-              subtitle="Connect your TON wallet"
-            >
-              TON Connect
-            </Cell>
-          </Link>
-        </Section>
-        <Section
-          header="Application Launch Data"
-          footer="These pages help developer to learn more about current launch information"
-        >
-          <Link href="/init-data">
-            <Cell subtitle="User data, chat information, technical data">
-              Init Data
-            </Cell>
-          </Link>
-          <Link href="/launch-params">
-            <Cell subtitle="Platform identifier, Mini Apps version, etc.">
-              Launch Parameters
-            </Cell>
-          </Link>
-          <Link href="/theme-params">
-            <Cell subtitle="Telegram application palette information">
-              Theme Parameters
-            </Cell>
-          </Link>
-        </Section>
-        <Section header={t('header')} footer={t('footer')}>
-          <LocaleSwitcher />
-        </Section>
-      </List> */}
-    </Page>
-  );
+  try {
+      const tgData = verifyTelegramInitData(initData);
+      const tgUserData = JSON.parse(tgData.user);
+      const telegramId = tgUserData.id?.toString();
+  
+      const userWithClub = await getUserWithOwnedClub(telegramId);
+  
+      if (!userWithClub) {
+        await createUser({
+          telegramId,
+          userName: tgUserData?.username,
+          firstName: tgUserData?.first_name,
+        });
+        redirect('/clubs');
+      }
+
+      const club = userWithClub.ownedClub?.id;
+
+      if (club) {
+        redirect(`/clubs/${club}`);
+      } else {
+        redirect(`/clubs/create`);
+      }
+    } catch (err) {
+      if (err?.digest?.startsWith('NEXT_REDIRECT')) throw err;
+      return <ErrorPage error={{ message: JSON.stringify(err), name: ''}} />
+    }
 }

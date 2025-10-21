@@ -5,7 +5,7 @@ import {
   default as NextLink,
 } from 'next/link';
 
-import { classNames } from '@/css/classnames';
+import { classNames } from '@/shared/css/classnames';
 
 import './Link.css';
 

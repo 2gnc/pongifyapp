@@ -4,7 +4,7 @@ import type { FC, ReactNode } from 'react';
 
 import { RGB } from '@/components/RGB/RGB';
 import { Link } from '@/components/Link/Link';
-import { bem } from '@/css/bem';
+import { bem } from '@/shared/css/bem';
 
 import './DisplayData.css';
 
