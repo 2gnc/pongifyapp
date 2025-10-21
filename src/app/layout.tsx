@@ -1,11 +1,10 @@
 import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { getLocale } from 'next-intl/server';
 import {
   initDataRaw as _initDataRaw,
   initDataState as _initDataState,
-  type User,
-  useSignal,
 } from '@telegram-apps/sdk-react';
 import { AsideBar } from '@/widgets/asideBar';
 
@@ -24,7 +23,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
-  const user = await getUserWithOwnedClub();
+
+  const cookie = await cookies();
+  const userCookie = cookie.get('user')?.value
+  const userData = userCookie ? JSON.parse(userCookie) : null;
+
+  const user = userData ? await getUserWithOwnedClub(userData.telegramId) : null;
 
   return (
     <html lang={locale} suppressHydrationWarning>

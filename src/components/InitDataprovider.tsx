@@ -8,7 +8,7 @@ import {
 } from '@telegram-apps/sdk-react';
 
 export function InitDataProvider() {
-    const initDataRaw = useSignal(_initDataRaw);
+const initDataRaw = useSignal(_initDataRaw);
 
   useEffect(() => {
     if (!initDataRaw) return;
