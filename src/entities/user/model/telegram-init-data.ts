@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import crypto, { BinaryLike } from 'crypto'
 
 const BOT_TOKEN = process.env.BOT_TOKEN!
 
@@ -12,7 +12,7 @@ export function verifyTelegramInitData(initData: string) {
     .map(([k, v]) => `${k}=${v}`)
     .join('\n')
 
-  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(BOT_TOKEN).digest();
+  const secretKey = crypto.createHmac('sha256', 'WebAppData').update(BOT_TOKEN).digest() as unknown as BinaryLike;
   
   const computedHash = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
 

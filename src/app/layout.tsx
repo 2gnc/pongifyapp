@@ -1,12 +1,9 @@
 import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
-import {
-  initDataRaw as _initDataRaw,
-  initDataState as _initDataState,
-} from '@telegram-apps/sdk-react';
-import { AsideBar } from '@/widgets/asideBar';
+import { AsideBar } from '@/features/navigation';
+import { ClientDevTools } from '@/shared/devtools';
 
 import { Root } from '@/components/Root/Root';
 import { I18nProvider } from '@/shared/i18n/provider';
@@ -23,19 +20,21 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
-
   const cookie = await cookies();
   const userCookie = cookie.get('user')?.value
   const userData = userCookie ? JSON.parse(userCookie) : null;
+  const headersList = headers();
 
   const user = userData ? await getUserWithOwnedClub(userData.telegramId) : null;
+  const url = (await headersList).get('referer');
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
         <I18nProvider>
           <Root>
-            {user && <AsideBar user={user} />}
+            <ClientDevTools />
+            {user && <AsideBar user={userData} url={url} />}
             {children}
           </Root>
         </I18nProvider>

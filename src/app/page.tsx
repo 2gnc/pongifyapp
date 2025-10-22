@@ -23,7 +23,6 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
     redirect(club ? `/clubs/${club}` : '/clubs/create');
   }
 
-
   const params = await searchParams;
   const initData = params.initData;
 

@@ -9,6 +9,7 @@ export async function GET(req: Request) {
 
     const { searchParams, origin } = new URL(req.url);
     const initData = searchParams.get('initData');
+
     if (!initData) return NextResponse.redirect('/');
 
     const tgData = verifyTelegramInitData(initData);
@@ -17,8 +18,6 @@ export async function GET(req: Request) {
 
     const userWithClub = await getUserWithOwnedClub(telegramId);
     let user = userWithClub;
-
-    console.log('🤮', tgUserData);
 
     if (!userWithClub) {
         const newUser = await createUser({

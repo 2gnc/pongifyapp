@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gravity-ui/icons": "^2.16.0",
     "@prisma/client": "^6.17.1",
     "@telegram-apps/sdk-react": "^3.2.4",
     "@telegram-apps/telegram-ui": "^2.1.5",
@@ -24,6 +25,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@gravity-ui/navigation": "^3.7.3",
+    "@gravity-ui/uikit": "^7.24.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

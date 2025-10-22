@@ -12,6 +12,7 @@ const initDataRaw = useSignal(_initDataRaw);
 
   useEffect(() => {
     if (!initDataRaw) return;
+
     const encoded = encodeURIComponent(initDataRaw);
     const url = `/?initData=${encoded}`;
     if (window.location.href !== url) {
