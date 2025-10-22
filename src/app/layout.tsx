@@ -13,6 +13,11 @@ import '@telegram-apps/telegram-ui/dist/styles.css';
 import 'normalize.css/normalize.css';
 import './_assets/globals.css';
 
+import '@gravity-ui/uikit/styles/fonts.css';
+import '@gravity-ui/uikit/styles/styles.css';
+// import '@/shared/css/';
+import {Theme, ThemeProvider} from '@gravity-ui/uikit';
+
 export const metadata: Metadata = {
   title: 'Your Application Title Goes Here',
   description: 'Your application description goes here',
@@ -33,9 +38,11 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body>
         <I18nProvider>
           <Root>
-            <ClientDevTools />
-            {user && <AsideBar user={userData} url={url} />}
-            {children}
+            <ThemeProvider theme={"light"}>
+              <ClientDevTools />
+              {user && <AsideBar user={userData} url={url} />}
+              {children}
+            </ThemeProvider>
           </Root>
         </I18nProvider>
       </body>
