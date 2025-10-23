@@ -35,5 +35,9 @@ function mapPrismaUserToUserFront(user: PrismaUser & { ownedClub?: PrismaClub | 
           ownerId: user.ownedClub.ownerId,
         }
       : null,
+    memberships: {
+      admin: [],
+      member: [],
+    }
   };
 }

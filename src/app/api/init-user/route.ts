@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifyTelegramInitData } from '@/entities/user/model/telegram-init-data';
-import { getUserWithOwnedClub, createUser } from '@/entities/user';
+import { getUserWithClubs, createUser } from '@/entities/user';
 
 export async function GET(req: Request) {
     const cookieStore = await cookies();
@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     const tgUserData = JSON.parse(tgData.user);
     const telegramId = tgUserData.id?.toString();
 
-    const userWithClub = await getUserWithOwnedClub(telegramId);
+    const userWithClub = await getUserWithClubs(telegramId);
     let user = userWithClub;
 
     if (!userWithClub) {

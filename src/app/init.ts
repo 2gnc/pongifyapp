@@ -71,12 +71,12 @@ export async function init(options: {
 
   if (mountMiniAppSync.isAvailable()) {
     mountMiniAppSync();
-    bindThemeParamsCssVars();
+    // bindThemeParamsCssVars();
   }
 
   if (mountViewport.isAvailable()) {
     mountViewport().then(() => {
-      bindViewportCssVars();
+      // bindViewportCssVars();
     });
   }
 }

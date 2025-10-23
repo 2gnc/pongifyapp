@@ -1,6 +1,12 @@
 {
   "i18n": {
     "header": "Application supports i18n",
-    "footer": "You can select a different language from the dropdown menu."
+    "footer": "You can select a different language from the dropdown menu.",
+    "club-create": {
+      "title": "New club",
+      "name": "Club name",
+      "description": "Description",
+      "isClosed": "Is club closed"
+    }
   }
 }

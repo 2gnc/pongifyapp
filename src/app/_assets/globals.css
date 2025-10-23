@@ -1,5 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --tg-theme-bg-color: unset !important;
+  --tg-theme-text-color: unset !important;
+  --tg-theme-hint-color: unset !important;
+  --tg-theme-link-color: unset !important;
+  --tg-theme-button-color: unset !important;
+  --tg-theme-button-text-color: unset !important;
+  --tg-color-scheme: unset !important;
+}
+
+@layer base {
+  html, body {
+    @apply font-sans;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+
 body {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+}
+
+/* body {
   background: var(--tg-theme-secondary-bg-color, white);
   padding: 0;
   margin: 0;
-}
+} */

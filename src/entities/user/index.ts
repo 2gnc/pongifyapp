@@ -1,3 +1,3 @@
 export { createUser } from './api/createUser';
-export { getUserWithOwnedClub } from './api/getUserWithOwnedClub';
+export { getUserWithClubs } from './api/getUserWithClubs';
 export { type UserFront } from './model/types';

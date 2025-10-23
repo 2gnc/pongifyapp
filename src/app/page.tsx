@@ -4,7 +4,7 @@ import { verifyTelegramInitData } from "@/entities/user/model/telegram-init-data
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import ErrorPage from './error';
-import { getUserWithOwnedClub, createUser, UserFront } from '@/entities/user';
+import { createUser, UserFront } from '@/entities/user';
 
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {

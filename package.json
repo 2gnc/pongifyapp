@@ -13,6 +13,7 @@
   "dependencies": {
     "@gravity-ui/icons": "^2.16.0",
     "@prisma/client": "^6.17.1",
+    "@tailwindcss/postcss": "^4.1.16",
     "@telegram-apps/sdk-react": "^3.2.4",
     "@telegram-apps/telegram-ui": "^2.1.5",
     "@tonconnect/ui-react": "^2.1.0",
@@ -25,6 +26,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@gravity-ui/components": "^4.15.0",
     "@gravity-ui/navigation": "^3.7.3",
     "@gravity-ui/uikit": "^7.24.0",
     "@svgr/webpack": "^8.1.0",
