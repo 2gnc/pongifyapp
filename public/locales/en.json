@@ -6,7 +6,9 @@
       "title": "New club",
       "name": "Club name",
       "description": "Description",
-      "isClosed": "Is club closed"
+      "isOpen": "Is club open",
+      "namePlaceholder": "Club name",
+      "descriptionPlaceholder": "Club`s description"
     }
   }
 }
