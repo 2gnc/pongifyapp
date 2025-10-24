@@ -5,6 +5,7 @@ import { getLocale } from 'next-intl/server';
 import { AsideBar } from '@/features/navigation';
 import { ClientDevTools } from '@/shared/devtools';
 import { PageWrapper } from '@/shared/ui';
+import { Toaster } from 'react-hot-toast';
 
 import { Root } from '@/components/Root/Root';
 import { I18nProvider } from '@/shared/i18n/provider';
@@ -45,6 +46,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                   <PageWrapper>{children}</PageWrapper>
                 </AsideBar>}
               {!user && <PageWrapper>{children}</PageWrapper>}
+              <Toaster />
             </ThemeProvider>
           </Root>
         </I18nProvider>

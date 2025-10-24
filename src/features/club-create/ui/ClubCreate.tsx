@@ -14,6 +14,7 @@ export const ClubCreate: FC<Props> = ({ }) => {
     return (
         <>
             <Text color="primary" variant="header-2">{t('club-create.title')}</Text>
+            <Text className="block mt-4" color="secondary" variant="caption-2">{t('club-create.descriptionText')}</Text>
             <ClubCreateForm />
         </>
     )
