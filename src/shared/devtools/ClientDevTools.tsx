@@ -2,6 +2,6 @@
 import { useVConsole } from './vconsole';
 
 export function ClientDevTools() {
-  useVConsole();
-  return null;
+    useVConsole();
+    return null;
 }

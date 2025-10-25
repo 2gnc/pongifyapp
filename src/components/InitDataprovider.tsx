@@ -8,7 +8,9 @@ import {
 } from '@telegram-apps/sdk-react';
 
 export function InitDataProvider() {
-const initDataRaw = useSignal(_initDataRaw);
+    const initDataRaw = useSignal(_initDataRaw);
+
+    // TODO обрабатываи start_param в initDataRaw для обработки инвайтов
 
   useEffect(() => {
     if (!initDataRaw) return;

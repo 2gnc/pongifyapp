@@ -2,18 +2,14 @@
 import { InitDataProvider } from "@/components/InitDataprovider";
 import { verifyTelegramInitData } from "@/entities/user/model/telegram-init-data";
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import ErrorPage from './error';
-import { createUser, UserFront } from '@/entities/user';
+import { createUser, UserFront, getUserFromCookies } from '@/entities/user';
 
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
-  const cookieData = (await cookies()).get('user')?.value;
+  const userData = await getUserFromCookies();
 
-  if (cookieData) {
-
-    const userData: UserFront = JSON.parse(cookieData)
-
+  if (userData) {
     if (!userData.canCreateClub) {
       redirect('/clubs');
     }
@@ -26,6 +22,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
   const params = await searchParams;
   const initData = params.initData;
 
+  
   if (!initData) {
     return <InitDataProvider />;
   }

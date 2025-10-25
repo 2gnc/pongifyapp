@@ -10,6 +10,7 @@ export async function GET(req: Request) {
     const { searchParams, origin } = new URL(req.url);
     const initData = searchParams.get('initData');
 
+
     if (!initData) return NextResponse.redirect('/');
 
     const tgData = verifyTelegramInitData(initData);

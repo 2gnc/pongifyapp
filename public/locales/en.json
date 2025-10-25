@@ -7,12 +7,12 @@
       "name": "Club name",
       "description": "Description",
       "descriptionText": "You can create your own club. It can be open to everyone or private—members can only join via an invite link.",
-      "adminsLabel": "Администраторы",
-      "adminsText": "Want to add administrators? Enter their Telegram usernames separated by commas — they’ll be able to manage events and club members. You also can do it later.",
       "isOpen": "Is club open",
       "namePlaceholder": "Club name",
       "descriptionPlaceholder": "Club`s description",
-      "submitButton": "Create club"
+      "submitButton": "Create club",
+      "successMsg": "New club created: {name}",
+      "errorMsg": "Error while club created {error}"
     }
   }
 }

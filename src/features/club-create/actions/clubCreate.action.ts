@@ -1,22 +1,67 @@
 'use server';
 
-import { clubCreateSchema, ClubCreateSchemaT } from '@/entities/club/model/schema';
 import { revalidatePath } from 'next/cache';
+import { clubCreateSchema, ClubCreateSchemaT } from '@/entities/club';
+import { getUserFromCookies } from '@/entities/user';
+import { prisma } from '@/shared/prisma';
+import { ErrorCodeEnum } from '@/shared/errors/errorCodes';
 
-export async function createClubAction(formData: ClubCreateSchemaT) {
-  const parsed = clubCreateSchema.safeParse(formData);
+export async function clubCreateAction(formData: ClubCreateSchemaT) {
+    const userdata = await getUserFromCookies();
 
-  if (!parsed.success) {
-    throw new Error(parsed.error.issues.map((e) => e.message).join(', '));
-  }
+    if (!userdata) {
+        return { success: false, error: ErrorCodeEnum.UNAUTHORIZED };
+    }
 
-  const data = parsed.data;
+    const parsed = clubCreateSchema.safeParse(formData);
 
-  // 💾 Пример сохранения в БД
-  // const newClub = await db.club.create({ data });
+    if (!parsed.success) {
+        return { success: false, error: ErrorCodeEnum.INVALID_DATA };
+    }
 
-  console.log('✅ Created club:', data);
+    const clubCreationData = parsed.data;
 
-  revalidatePath('/clubs');
-  return { success: true, data };
+    const owner = await prisma.user.findUnique({
+        where: { id: userdata.id },
+        include: { ownedClub: true },
+    });
+
+    if (!owner) {
+        return { success: false, error: ErrorCodeEnum.NOT_FOUND };
+    }
+
+    if (owner.ownedClub) {
+        return { success: false, error: ErrorCodeEnum.HAS_CLUB_ALREADY };
+    }
+
+    try {
+        const club = await prisma.$transaction(async (tx) => {
+            const newClub = await tx.club.create({
+                data: {
+                    name: clubCreationData.name,
+                    description: clubCreationData.description || '',
+                    isOpen: clubCreationData.isOpen,
+                    ownerId: owner.id,
+                },
+            });
+
+            await tx.user.update({
+                where: { id: owner.id },
+                data: { ownedClub: { connect: { id: newClub.id } } },
+            });
+
+            await tx.membership.create({
+                data: {
+                    userId: owner.id,
+                    clubId: newClub.id,
+                    role: 'OWNER',
+                },
+            });
+
+            return newClub;
+        });
+        return { success: true, data: club };
+    } catch (_e) {
+        return { success: false, error: ErrorCodeEnum.INTERNAL };
+    }
 }

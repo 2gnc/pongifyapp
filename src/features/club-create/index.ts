@@ -1,2 +1,2 @@
 export { ClubCreate } from './ui/ClubCreate';
-export { createClubAction } from './actions/clubCreate.action';
+export { clubCreateAction } from './actions/clubCreate.action';
