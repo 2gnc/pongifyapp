@@ -1,6 +1,7 @@
 'use client'
 
 import { type FC, useTransition } from 'react';
+import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +16,7 @@ type Props = {}
 export const ClubCreateForm: FC<Props> = ({ }) => {
     const t = useTranslations('i18n');
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
 
     const { register, handleSubmit, formState: { errors }, reset, control } = useForm<ClubCreateSchemaT>({
         resolver: zodResolver(clubCreateSchema),
@@ -26,7 +28,8 @@ export const ClubCreateForm: FC<Props> = ({ }) => {
             const result = await clubCreateAction(data);
             if (result.success && result.data) {
                 toast.success(t('club-create.successMsg', { club: result.data?.name}));
-                // TODO редирект 
+
+                router.push(`/clubs/${result.data.id}`);
             } else {
                 toast.error(t('club-create.errorMsg'));
             }

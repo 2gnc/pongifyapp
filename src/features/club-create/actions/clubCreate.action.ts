@@ -1,8 +1,7 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { clubCreateSchema, ClubCreateSchemaT } from '@/entities/club';
-import { getUserFromCookies } from '@/entities/user';
+import { getUserFromCookies, getUserWithClubs, updateUserCookie } from '@/entities/user';
 import { prisma } from '@/shared/prisma';
 import { ErrorCodeEnum } from '@/shared/errors/errorCodes';
 
@@ -45,11 +44,6 @@ export async function clubCreateAction(formData: ClubCreateSchemaT) {
                 },
             });
 
-            await tx.user.update({
-                where: { id: owner.id },
-                data: { ownedClub: { connect: { id: newClub.id } } },
-            });
-
             await tx.membership.create({
                 data: {
                     userId: owner.id,
@@ -60,6 +54,10 @@ export async function clubCreateAction(formData: ClubCreateSchemaT) {
 
             return newClub;
         });
+
+        const userWithClub = await getUserWithClubs(owner.id);
+        await updateUserCookie(userWithClub);
+
         return { success: true, data: club };
     } catch (_e) {
         return { success: false, error: ErrorCodeEnum.INTERNAL };

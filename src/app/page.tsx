@@ -14,6 +14,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
       redirect('/clubs');
     }
 
+    
     const club = userData.ownedClub?.id;
 
     redirect(club ? `/clubs/${club}` : '/clubs/create');

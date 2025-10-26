@@ -19,7 +19,10 @@ export const ClubSchema = z.object({
     id: z.string(),
     name: z.string(),
     description: z.string(),
-    createdAt: z.date(),
+    createdAt: z.union([
+        z.date(),
+        z.iso.datetime({ offset: true }),
+    ]).transform(val => val instanceof Date ? val : new Date(val)),
     isOpen: z.boolean(),
     ownerId: z.string(),
 });

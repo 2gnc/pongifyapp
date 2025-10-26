@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifyTelegramInitData } from '@/entities/user/model/telegram-init-data';
-import { getUserWithClubs, createUser } from '@/entities/user';
+import { getUserWithClubs, createUser, updateUserCookie } from '@/entities/user';
 
 export async function GET(req: Request) {
-    const cookieStore = await cookies();
-    cookieStore.set('user', '', { expires: new Date(0), path: '/' });
+    await updateUserCookie(null);
 
     const { searchParams, origin } = new URL(req.url);
     const initData = searchParams.get('initData');

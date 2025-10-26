@@ -1,6 +1,7 @@
 import { prisma } from '@/shared/prisma';
+import { UserFront } from '../model/schema';
 
-export async function getUserWithClubs(telegramId: string) {
+export async function getUserWithClubs(telegramId: string): Promise<UserFront | null> {
   const user = await prisma.user.findUnique({
     where: { telegramId },
     include: {
@@ -12,6 +13,7 @@ export async function getUserWithClubs(telegramId: string) {
       },
     },
   });
+
 
   if (!user) return null;
 

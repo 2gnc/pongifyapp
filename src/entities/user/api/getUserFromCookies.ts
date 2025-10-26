@@ -3,7 +3,6 @@ import { UserFront, UserFrontSchema } from '@/entities/user';
 
 export async function getUserFromCookies(): Promise<UserFront | null> {
     const cookieData = (await cookies()).get('user')?.value;
-
     if (!cookieData) return null;
 
     try {
