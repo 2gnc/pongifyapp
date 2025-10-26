@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { UserFront, UserFrontSchema } from '@/entities/user';
+import { UserFront, UserFrontSchema } from '@/shared/model';
 
 export async function getUserFromCookies(): Promise<UserFront | null> {
     const cookieData = (await cookies()).get('user')?.value;

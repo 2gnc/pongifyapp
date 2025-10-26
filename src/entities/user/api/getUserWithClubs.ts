@@ -1,5 +1,5 @@
 import { prisma } from '@/shared/prisma';
-import { UserFront } from '../model/schema';
+import { UserFront } from '@/shared/model';
 
 export async function getUserWithClubs(telegramId: string): Promise<UserFront | null> {
   const user = await prisma.user.findUnique({

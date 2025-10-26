@@ -1,6 +1,6 @@
 import { prisma } from '@/shared/prisma';
 import type { User as PrismaUser, Club as PrismaClub } from '@/generated/prisma';
-import type { UserFront } from '../model/schema';
+import type { UserFront } from '@/shared/model';
 
 export async function createUser(data: {
   telegramId: string;

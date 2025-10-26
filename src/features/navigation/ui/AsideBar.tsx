@@ -1,7 +1,7 @@
 'use client';
 
-import { UserFront } from '@/entities/user';
-import { useEffect, useMemo, useState, type FC, type PropsWithChildren } from 'react';
+import { UserFront } from '@/shared/model';
+import { useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import {ListUl} from '@gravity-ui/icons';
 import {AsideHeader, type MenuItem} from '@gravity-ui/navigation';
 import {CrownDiamond} from '@gravity-ui/icons';

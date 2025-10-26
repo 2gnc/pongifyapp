@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { UserFront } from '../model/schema';
+import { UserFront } from '@/shared/model';
 
 export async function updateUserCookie(user: UserFront | null) {
     const cookieStore = await cookies();

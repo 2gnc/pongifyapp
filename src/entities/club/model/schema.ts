@@ -15,16 +15,30 @@ export const createClubFormDefaultValues = {
     adminsRaw: "",
 };
 
-export const ClubSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    description: z.string(),
-    createdAt: z.union([
-        z.date(),
-        z.iso.datetime({ offset: true }),
-    ]).transform(val => val instanceof Date ? val : new Date(val)),
-    isOpen: z.boolean(),
-    ownerId: z.string(),
+// export const ClubSchema = z.object({
+//     id: z.string(),
+//     name: z.string(),
+//     description: z.string(),
+//     createdAt: z.union([
+//         z.date(),
+//         z.iso.datetime({ offset: true }),
+//     ]).transform(val => val instanceof Date ? val : new Date(val)),
+//     isOpen: z.boolean(),
+//     ownerId: z.string(),
+// });
+
+// export type ClubFront = z.infer<typeof ClubSchema>;
+
+export const ClubBaseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().nullable(),
+  createdAt: z.union([
+    z.date(),
+    z.string().datetime({ offset: true }),
+  ]).transform(val => val instanceof Date ? val : new Date(val)),
+  isOpen: z.boolean(),
+  ownerId: z.string(),
 });
 
-export type ClubFront = z.infer<typeof ClubSchema>;
+export type ClubBase = z.infer<typeof ClubBaseSchema>;
