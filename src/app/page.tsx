@@ -4,7 +4,7 @@ import { verifyTelegramInitData } from "@/entities/user/model/telegram-init-data
 import { redirect } from 'next/navigation';
 import ErrorPage from './error';
 import { createUser, getUserFromCookies } from '@/entities/user';
-import { type UserFront } from '@/shared/model'
+import { type UserFrontT } from '@/entities/user'
 
 
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
@@ -16,7 +16,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<Rec
     }
 
     
-    const club = userData.ownedClub?.id;
+    const club = userData.ownedClub?.clubId;
 
     redirect(club ? `/clubs/${club}` : '/clubs/create');
   }

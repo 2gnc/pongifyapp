@@ -9,9 +9,8 @@ import { Toaster } from 'react-hot-toast';
 
 import { Root } from '@/components/Root/Root';
 import { I18nProvider } from '@/shared/i18n/provider';
-import { getUserWithClubs } from '@/entities/user';
+import { getUserFromCookies } from '@/entities/user';
 
-// import '@telegram-apps/telegram-ui/dist/styles.css';
 import 'normalize.css/normalize.css';
 
 import '@gravity-ui/uikit/styles/fonts.css';
@@ -27,12 +26,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const locale = await getLocale();
-  const cookie = await cookies();
-  const userCookie = cookie.get('user')?.value
-  const userData = userCookie ? JSON.parse(userCookie) : null;
+  const currentUser = await getUserFromCookies();
   const headersList = headers();
-
-  const user = userData ? await getUserWithClubs(userData.telegramId) : null;
   const url = (await headersList).get('referer');
 
   return (
@@ -42,10 +37,10 @@ export default async function RootLayout({ children }: PropsWithChildren) {
           <Root>
             <ThemeProvider theme={"light"}>
               <ClientDevTools />
-              {user && <AsideBar user={userData} url={url}>
+              {currentUser && <AsideBar user={currentUser} url={url}>
                   <PageWrapper>{children}</PageWrapper>
                 </AsideBar>}
-              {!user && <PageWrapper>{children}</PageWrapper>}
+              {!currentUser && <PageWrapper>{children}</PageWrapper>}
               <Toaster />
             </ThemeProvider>
           </Root>

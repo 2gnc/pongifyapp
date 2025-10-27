@@ -13,6 +13,11 @@
       "submitButton": "Create club",
       "successMsg": "New club created: {name}",
       "errorMsg": "Error while club created {error}"
+    },
+    "club": {
+      "isOpen": "Открыт для всех",
+      "isClosed": "Частный клуб",
+      "created": "Создан"
     }
   }
 }

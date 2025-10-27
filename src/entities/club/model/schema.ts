@@ -41,3 +41,4 @@ export const ClubFrontSchema = z.object({
 });
 
 export type ClubFrontT = z.infer<typeof ClubFrontSchema>;
+export type ClubMemberFrontT = z.infer<typeof clubMemberSchema>;
