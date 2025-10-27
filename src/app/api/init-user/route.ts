@@ -30,7 +30,7 @@ export async function GET(req: Request) {
 
   // Сохраняем юзера в куку
   const response = NextResponse.redirect(
-    user?.ownedClub ? `${origin}/clubs/${user.ownedClub.id}` : `${origin}/clubs/create`
+    user?.ownedClub ? `${origin}/clubs/${user.ownedClub.clubId}` : `${origin}/clubs/create`
   );
 
   response.cookies.set({

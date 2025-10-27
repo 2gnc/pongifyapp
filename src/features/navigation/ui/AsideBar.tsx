@@ -1,6 +1,6 @@
 'use client';
 
-import { UserFront } from '@/shared/model';
+import { type UserFrontT } from '@/entities/user';
 import { useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import {ListUl} from '@gravity-ui/icons';
 import {AsideHeader, type MenuItem} from '@gravity-ui/navigation';
@@ -10,7 +10,7 @@ import Icon from '../img/icon.svg';
 import { PageEnum } from '../model/page-enum';
 
 type Props = {
-    user: UserFront;
+    user: UserFrontT;
     url: string | null;
 }
 
@@ -37,8 +37,8 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
                 item: {
                     id: 'club',
                     icon: CrownDiamond,
-                    title: `Мой клуб: ${user.ownedClub.name}`,
-                    link: `/clubs/${user.ownedClub.id}`,
+                    title: `Мой клуб: ${user.ownedClub.clubName}`,
+                    link: `/clubs/${user.ownedClub.clubId}`,
                 },
             });
         }
@@ -63,8 +63,8 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
          basic.push({
                 id: 'club',
                 icon: CrownDiamond,
-                title: `Мой клуб: ${user.ownedClub.name}`,
-                link: `/clubs/${user.ownedClub.id}`,
+                title: `Мой клуб: ${user.ownedClub.clubName}`,
+                link: `/clubs/${user.ownedClub.clubId}`,
             });
         }
 

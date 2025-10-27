@@ -15,30 +15,29 @@ export const createClubFormDefaultValues = {
     adminsRaw: "",
 };
 
-// export const ClubSchema = z.object({
-//     id: z.string(),
-//     name: z.string(),
-//     description: z.string(),
-//     createdAt: z.union([
-//         z.date(),
-//         z.iso.datetime({ offset: true }),
-//     ]).transform(val => val instanceof Date ? val : new Date(val)),
-//     isOpen: z.boolean(),
-//     ownerId: z.string(),
-// });
-
-// export type ClubFront = z.infer<typeof ClubSchema>;
-
-export const ClubBaseSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string().nullable(),
-  createdAt: z.union([
-    z.date(),
-    z.string().datetime({ offset: true }),
-  ]).transform(val => val instanceof Date ? val : new Date(val)),
-  isOpen: z.boolean(),
-  ownerId: z.string(),
+const clubMemberSchema = z.object({
+    id: z.string(),
+    telegramId: z.string(),
+    userName: z.string().nullable(),
+    firstName: z.string().nullable(),
+    joinedAt: z.union([
+        z.date(),
+        z.iso.datetime({ offset: true }),
+    ]).transform(val => val instanceof Date ? val : new Date(val)),
 });
 
-export type ClubBase = z.infer<typeof ClubBaseSchema>;
+export const ClubFrontSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string().nullable(),
+    createdAt: z.union([
+        z.date(),
+        z.iso.datetime({ offset: true }),
+    ]).transform(val => val instanceof Date ? val : new Date(val)),
+    isOpen: z.boolean(),
+    ownerId: z.string(),
+    admins: z.array(clubMemberSchema),
+    members: z.array(clubMemberSchema),
+});
+
+export type ClubFrontT = z.infer<typeof ClubFrontSchema>;

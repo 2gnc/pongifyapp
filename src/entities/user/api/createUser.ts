@@ -1,12 +1,12 @@
 import { prisma } from '@/shared/prisma';
 import type { User as PrismaUser, Club as PrismaClub } from '@/generated/prisma';
-import type { UserFront } from '@/shared/model';
+import type { UserFrontT } from '@/entities/user';
 
 export async function createUser(data: {
   telegramId: string;
   userName?: string;
   firstName?: string;
-}): Promise<UserFront> {
+}): Promise<UserFrontT> {
   const created = await prisma.user.create({
     data: {
       ...data,
@@ -18,7 +18,7 @@ export async function createUser(data: {
   return mapPrismaUserToUserFront(created);
 }
 
-function mapPrismaUserToUserFront(user: PrismaUser & { ownedClub?: PrismaClub | null }): UserFront {
+function mapPrismaUserToUserFront(user: PrismaUser & { ownedClub?: PrismaClub | null }): UserFrontT {
   return {
     id: user.id,
     telegramId: user.telegramId,
@@ -27,17 +27,11 @@ function mapPrismaUserToUserFront(user: PrismaUser & { ownedClub?: PrismaClub | 
     canCreateClub: user.canCreateClub,
     ownedClub: user.ownedClub
       ? {
-          id: user.ownedClub.id,
-          name: user.ownedClub.name,
-          description: user.ownedClub.description,
-          createdAt: user.ownedClub.createdAt,
-          isOpen: user.ownedClub.isOpen,
-          ownerId: user.ownedClub.ownerId,
+          clubId: user.ownedClub.id,
+          clubName: user.ownedClub.name,
         }
       : null,
-    memberships: {
-      admin: [],
-      member: [],
-    }
+    admin: [],
+    member: [],
   };
 }

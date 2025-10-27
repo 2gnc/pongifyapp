@@ -1,9 +1,9 @@
 export {
-    // type ClubFront,
-    type ClubBase,
-    ClubBaseSchema,
+    type ClubFrontT,
+    ClubFrontSchema,
     type ClubCreateSchemaT,
-    // ClubSchema,
     clubCreateSchema,
     createClubFormDefaultValues,
 } from './model/schema';
+
+export { getClubById } from './api/getClubById';

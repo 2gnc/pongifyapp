@@ -1,29 +1,21 @@
 import { z } from 'zod';
 
-// import { ClubFront, ClubSchema } from '@/entities/club';
+export const userRoleSchema = z.enum(['ADMIN', 'MEMBER', 'OWNER']);
 
+const userClubMembershipSchema = z.object({
+    clubId: z.string(),
+    clubName: z.string(),
+});
 
-// export const UserFrontSchema = z.object({
-//     id: z.string(),
-//     telegramId: z.string(),
-//     userName: z.string().nullable(),
-//     firstName: z.string().nullable(),
-//     canCreateClub: z.boolean(),
-//     ownedClub: ClubSchema.nullable(),
-//     memberships: z.object({
-//         admin: z.array(ClubSchema),
-//         member: z.array(ClubSchema),
-//     })
-// });
-
-// export type UserFront = z.infer<typeof UserFrontSchema>;
-
-export const UserBaseSchema = z.object({
+export const UserFrontSchema = z.object({
   id: z.string(),
   telegramId: z.string(),
   userName: z.string().nullable(),
   firstName: z.string().nullable(),
   canCreateClub: z.boolean(),
+  ownedClub: userClubMembershipSchema.nullable(),
+  admin: z.array(userClubMembershipSchema),
+  member: z.array(userClubMembershipSchema),
 });
 
-export type UserBase = z.infer<typeof UserBaseSchema>;
+export type UserFrontT = z.infer<typeof UserFrontSchema>;
