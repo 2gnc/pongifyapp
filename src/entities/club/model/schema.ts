@@ -26,6 +26,14 @@ const clubMemberSchema = z.object({
     ]).transform(val => val instanceof Date ? val : new Date(val)),
 });
 
+const clubMemberFrontBannedSchema = clubMemberSchema.extend({
+    bannedAt: z.union([
+        z.date(),
+        z.iso.datetime({ offset: true }),
+    ]).transform(val => val instanceof Date ? val : new Date(val)),
+    reason: z.string().optional(),
+});
+
 export const ClubFrontSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -41,4 +49,7 @@ export const ClubFrontSchema = z.object({
 });
 
 export type ClubFrontT = z.infer<typeof ClubFrontSchema>;
+
 export type ClubMemberFrontT = z.infer<typeof clubMemberSchema>;
+
+export type ClubMemberBannedFrontT = z.infer<typeof clubMemberFrontBannedSchema>;

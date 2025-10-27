@@ -18,6 +18,12 @@
       "isOpen": "Открытый",
       "isClosed": "Закрытый",
       "created": "Создан"
+    },
+    "membersList": {
+      "title": "Участники",
+      "all": "Все",
+      "admins": "Админы",
+      "banned": "Баны"
     }
   }
 }

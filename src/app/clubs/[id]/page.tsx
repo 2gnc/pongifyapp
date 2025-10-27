@@ -14,7 +14,7 @@ export default async function Page({ params }: { searchParams: Promise<Record<st
 
     return (
         <>
-            <ClubDetails club={club} currentUser={currentUser} owner={owner} />
+            <ClubDetails club={club} currentUser={currentUser} owner={owner} members={members} />
         </>
     )
 }

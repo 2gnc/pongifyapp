@@ -19,6 +19,6 @@ export const ClubUserLabel: FC<Props> = ({ user, type }) => {
     }, []);
 
     return (
-        <UserLabel avatar={{icon: Icon}} type="person" text={user.userName} size='xs' onClick={handleClick} />
+        <UserLabel avatar={{icon: Icon}} type="person" text={user.userName || user.firstName} size='xs' onClick={handleClick} />
     );
 }
