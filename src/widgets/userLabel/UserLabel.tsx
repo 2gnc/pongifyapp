@@ -5,10 +5,11 @@ import { UserLabel } from '@gravity-ui/uikit';
 import { CrownDiamond, PersonPencil, Person } from '@gravity-ui/icons';
 import { openTelegramLink } from '@telegram-apps/sdk-react';
 
-import { UserFrontT } from '..';
+import { ClubMemberFrontT } from '@/entities/club';
+import { UserFrontT } from '@/entities/user';
 
 type Props = {
-    user: UserFrontT;
+    user: ClubMemberFrontT | UserFrontT;
     type: 'owner' | 'admin' | 'member';
 };
 export const ClubUserLabel: FC<Props> = ({ user, type }) => {

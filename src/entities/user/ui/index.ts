@@ -1,1 +1,0 @@
-export { ClubUserLabel } from './UserLabel'; 

@@ -1,14 +1,12 @@
 'use client'
 
 import { type FC, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { Text, TabProvider, TabList, Tab, TabPanel, UserLabel, Flex } from '@gravity-ui/uikit';
+import { Text, TabProvider, TabList, Tab, TabPanel, Flex } from '@gravity-ui/uikit';
 import { Lock, Persons, Calendar, ChartLine, ChartLineLabel, PersonPlus } from '@gravity-ui/icons';
 
 import { ClubFrontT, ClubMembersT } from '@/entities/club';
-import { timeAgo } from '@/shared/time';
 import { UserFrontT } from '@/entities/user';
-import { ClubUserLabel } from '@/entities/user/ui';
+import { ClubUserLabel } from '@/widgets/userLabel';
 import { MembersList } from '@/widgets/membersList';
 
 type PropsT = {
@@ -19,7 +17,6 @@ type PropsT = {
 };
 
 export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) => {
-    const t = useTranslations('i18n');
     const tabs = useMemo(() => ['first', 'second', 'third', 'fourth', 'fifth'], []);
     const [activeTab, setActiveTab] = useState(tabs[1]);
 
