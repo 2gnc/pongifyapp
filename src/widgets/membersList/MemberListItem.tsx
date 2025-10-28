@@ -3,7 +3,7 @@ import { ClubMemberBannedFrontT, ClubMemberFrontT } from '@/entities/club';
 import { DropdownMenu, type DropdownMenuItem, Flex } from '@gravity-ui/uikit';
 import { ClubUserLabel } from '../userLabel';
 import { useCurrentUser } from '@/features/auth';
-import { useAppointMemberAsAdmin } from '@/features/manage-club-members';
+import { useAppointMemberAsAdmin, useDemoteMemberFromAdmin } from '@/features/manage-club-members';
 
 type Props = {
     member: ClubMemberFrontT | ClubMemberBannedFrontT;
@@ -18,6 +18,7 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
     const isbanned = Boolean((member as ClubMemberBannedFrontT).bannedAt);
 
     const { action: appointAdminAction, isPending: appointAdminPending } = useAppointMemberAsAdmin(clubId, member.id);
+    const { action: demoteAdminAction, isPending: demoteAdminPending } = useDemoteMemberFromAdmin(clubId, member.id);
 
     const options = useMemo<DropdownMenuItem[]>(() => {
         const options: DropdownMenuItem[] = [];
@@ -26,7 +27,7 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
             options.push({
                 action: member.role === 'MEMBER'
                     ? appointAdminAction
-                    : appointAdminAction,
+                    : demoteAdminAction,
                 text: member.role === 'ADMIN' ? 'Разжаловать' : 'Назначить админом',
             });
         }
@@ -45,7 +46,7 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
     return (
         <Flex justifyContent="space-between" alignItems="center" className="w-full block pt-2 pb-2" style={{ width: '100%' }}>
             <ClubUserLabel user={member} role={member.role} clear />
-            { options.length && <DropdownMenu size="l" items={options} disabled={appointAdminPending} /> }
+            { options.length && <DropdownMenu size="l" items={options} disabled={appointAdminPending || demoteAdminPending} /> }
         </Flex>
     );
 };
