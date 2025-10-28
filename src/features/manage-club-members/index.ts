@@ -1,2 +1,2 @@
-export { useAppointMemberAsAdmin } from './appoint-as-admin/hooks/useAppointMemberAsAdmin';
-export { useDemoteMemberFromAdmin } from './demote-from-admin';
+export { useAppointMemberAsAdmin } from './hooks/useAppointMemberAsAdmin';
+export { useDemoteMemberFromAdmin } from './hooks/useDemoteMemberFromAdmin';

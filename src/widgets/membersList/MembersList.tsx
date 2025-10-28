@@ -24,7 +24,7 @@ export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
     const filteredMembers = useMemo(() => {
         switch (currentFilter) {
             case TabEnum.ALL:
-                return clubMembers.admins.concat(clubMembers.members).concat(clubMembers.banned);
+                return clubMembers.admins.concat(clubMembers.members);
             case TabEnum.ADMINS:
                 return clubMembers.admins;
             case TabEnum.BANNED:

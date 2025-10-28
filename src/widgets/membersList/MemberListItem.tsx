@@ -15,13 +15,23 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
     const currentUser = useCurrentUser();
     const isCurrentUserOwner = currentUser?.ownedClub?.clubId === clubId;
     const isCurrentUserAdmin = currentUser?.admin.some((club) => club.clubId === clubId);
-    const isbanned = Boolean((member as ClubMemberBannedFrontT).bannedAt);
+    const isBanned = Boolean((member as ClubMemberBannedFrontT).bannedAt);
 
     const { action: appointAdminAction, isPending: appointAdminPending } = useAppointMemberAsAdmin(clubId, member.id);
     const { action: demoteAdminAction, isPending: demoteAdminPending } = useDemoteMemberFromAdmin(clubId, member.id);
 
     const options = useMemo<DropdownMenuItem[]>(() => {
         const options: DropdownMenuItem[] = [];
+
+        if (isBanned) {
+            options.push({
+                action: () => console.log('Delete'),
+                text: 'Разбанить',
+                theme: 'danger',
+            });
+
+            return options;
+        }
 
         if (isCurrentUserOwner) {
             options.push({
@@ -41,7 +51,7 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
         }
 
         return options;
-    }, []);
+    }, [isBanned, isCurrentUserOwner, isCurrentUserAdmin, member.role]);
 
     return (
         <Flex justifyContent="space-between" alignItems="center" className="w-full block pt-2 pb-2" style={{ width: '100%' }}>

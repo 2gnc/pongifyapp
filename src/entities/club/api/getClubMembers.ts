@@ -1,15 +1,30 @@
 import { prisma } from '@/shared/prisma';
-import { ClubMemberFrontT } from '../model/schema';
+import { ClubMemberFrontT, ClubMemberBannedFrontT } from '../model/schema';
 import { ClubMembersT } from '../model/types';
 
-export async function getClubMembers(id: string): Promise<ClubMembersT> {
+export async function getClubMembers(clubId: string): Promise<ClubMembersT> {
+    const bannedRecords = await  prisma.ban.findMany({
+        where: { clubId },
+        include: {
+            user: {
+                include: {
+                    memberships: {
+                        where: { clubId },
+                        select: { role: true, joinedAt: true },
+                    },
+                },
+            },
+        },
+    });
+
+    const bannedUserIds = bannedRecords.map((b) => b.userId);
+
     const allMembers = await prisma.membership.findMany({
         where: {
-            clubId: id,
+            clubId,
+            userId: { notIn: bannedUserIds.length ? bannedUserIds : [''] },
         },
-        include: {
-            user: true,
-        },
+        include: { user: true },
     });
 
     const admins: ClubMemberFrontT[] = allMembers.filter((member) => member.role === 'ADMIN').map((m) =>({
@@ -19,7 +34,7 @@ export async function getClubMembers(id: string): Promise<ClubMembersT> {
         firstName: m.user.firstName,
         joinedAt: m.joinedAt,
         role: m.role,
-        clubId: id,
+        clubId,
     }));
 
     const members: ClubMemberFrontT[] = allMembers.filter((member) => member.role === 'MEMBER').map((m) =>({
@@ -29,8 +44,20 @@ export async function getClubMembers(id: string): Promise<ClubMembersT> {
         firstName: m.user.firstName,
         joinedAt: m.joinedAt,
         role: m.role,
-        clubId: id,
+        clubId,
     }));
 
-    return { admins, members, banned: [] };
+    const banned: ClubMemberBannedFrontT[] = bannedRecords.map((b) => ({
+        id: b.user.id,
+        telegramId: b.user.telegramId,
+        userName: b.user.userName,
+        firstName: b.user.firstName,
+        bannedAt: b.bannedAt,
+        reason: b.reason || undefined,
+        role: b.user.memberships[0]?.role,
+        joinedAt: b.user.memberships[0]?.joinedAt,
+        clubId,
+    }));
+
+    return { admins, members, banned };
 }

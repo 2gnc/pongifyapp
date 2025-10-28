@@ -2,15 +2,15 @@
 
 import { type FC, useCallback, useMemo } from 'react';
 import { UserLabel } from '@gravity-ui/uikit';
-import { CrownDiamond, PersonPencil, Person } from '@gravity-ui/icons';
+import { CrownDiamond, PersonPencil, Person, PersonXmark } from '@gravity-ui/icons';
 import { openTelegramLink } from '@telegram-apps/sdk-react';
 import { ClubRole } from '@/generated/prisma';
 
-import { ClubMemberFrontT } from '@/entities/club';
+import { ClubMemberBannedFrontT, ClubMemberFrontT } from '@/entities/club';
 import { UserFrontT } from '@/entities/user';
 
 type Props = {
-    user: ClubMemberFrontT  |UserFrontT;
+    user: ClubMemberFrontT | UserFrontT | ClubMemberBannedFrontT;
     role: ClubRole
     clear?: boolean;
 };
@@ -27,6 +27,9 @@ export const ClubUserLabel: FC<Props> = ({ user, role, clear = false }) => {
             case ClubRole.ADMIN:
                 return { Icon: PersonPencil, color: '#4a90e2' }; // синий
             default:
+                if ((user as ClubMemberBannedFrontT).bannedAt) {
+                    return { Icon: PersonXmark, color: '#f54242' }; // красный
+                }
                 return { Icon: Person, color: '#999' }; // серый
         }
     }, [role]);
