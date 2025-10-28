@@ -3,6 +3,7 @@ export {
     ClubFrontSchema,
     type ClubCreateSchemaT,
     type ClubMemberFrontT,
+    type ClubMemberBannedFrontT,
     clubCreateSchema,
     createClubFormDefaultValues,
 } from './model/schema';

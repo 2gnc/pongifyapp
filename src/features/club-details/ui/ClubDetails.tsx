@@ -8,6 +8,7 @@ import { ClubFrontT, ClubMembersT } from '@/entities/club';
 import { UserFrontT } from '@/entities/user';
 import { ClubUserLabel } from '@/widgets/userLabel';
 import { MembersList } from '@/widgets/membersList';
+import { ClubRole } from '@/generated/prisma';
 
 type PropsT = {
     club: ClubFrontT;
@@ -33,8 +34,8 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
             </Flex>
             <div className='pb-2' />
             <Flex gap={2}>
-                {owner && <ClubUserLabel user={owner} type="owner" />}
-                {members.admins.map((admin) => <ClubUserLabel user={admin} type="admin" />)}
+                {owner && <ClubUserLabel user={owner} role={ClubRole.OWNER} />}
+                {members.admins.map((admin) => <ClubUserLabel user={admin} role={ClubRole.ADMIN}  />)}
             </Flex>
             <Text className="block mt-2" color="secondary" variant="caption-2">{club.description}</Text>
             <TabProvider value={activeTab} onUpdate={setActiveTab}>

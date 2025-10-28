@@ -18,6 +18,7 @@ export async function getClubMembers(id: string): Promise<ClubMembersT> {
         userName: m.user.userName,
         firstName: m.user.firstName,
         joinedAt: m.joinedAt,
+        role: m.role,
     }));
 
     const members: ClubMemberFrontT[] = allMembers.filter((member) => member.role === 'MEMBER').map((m) =>({
@@ -26,6 +27,7 @@ export async function getClubMembers(id: string): Promise<ClubMembersT> {
         userName: m.user.userName,
         firstName: m.user.firstName,
         joinedAt: m.joinedAt,
+        role: m.role,
     }));
 
     return { admins, members, banned: [] };

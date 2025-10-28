@@ -4,6 +4,7 @@ import { useMemo, useState, type FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { Text, SegmentedRadioGroup, List, Flex } from '@gravity-ui/uikit';
 import { ClubMembersT } from '@/entities/club';
+import { ClublistItem } from './MemberListItem';
 
 type Props = {
     clubMembers: ClubMembersT;
@@ -57,7 +58,7 @@ export const MembersList: FC<Props> = ({ clubMembers }) => {
             <List
                 className='mt-2 h-100'
                 items={filteredMembers}
-                renderItem={(item) => <>{item.userName || item.firstName }</>}
+                renderItem={(item) => <ClublistItem  member={item} />}
                 itemsHeight={300}
                 filterItem={(filter) => (item) => Boolean(item.userName?.includes(filter) || item.firstName?.includes(filter))}
             />
