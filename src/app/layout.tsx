@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
-import { AsideBar } from '@/features/navigation';
+import { AsideBar } from '@/widgets/asideBar';
 import { ClientDevTools } from '@/shared/devtools';
 import { PageWrapper } from '@/shared/ui';
 import { Toaster } from 'react-hot-toast';
@@ -18,6 +18,8 @@ import '@gravity-ui/uikit/styles/styles.css';
 import './_assets/globals.css';
 
 import {Theme, ThemeProvider} from '@gravity-ui/uikit';
+
+import { CurrentUserProvider } from '@/features/auth';
 
 export const metadata: Metadata = {
   title: 'Your Application Title Goes Here',
@@ -35,14 +37,16 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       <body>
         <I18nProvider>
           <Root>
-            <ThemeProvider theme={"light"}>
-              <ClientDevTools />
-              {currentUser && <AsideBar user={currentUser} url={url}>
-                  <PageWrapper>{children}</PageWrapper>
-                </AsideBar>}
-              {!currentUser && <PageWrapper>{children}</PageWrapper>}
-              <Toaster />
-            </ThemeProvider>
+            <CurrentUserProvider value={currentUser}>
+              <ThemeProvider theme={"light"}>
+                <ClientDevTools />
+                  <AsideBar url={url}>
+                    <PageWrapper>{children}</PageWrapper>
+                  </AsideBar>
+                {!currentUser && <PageWrapper>{children}</PageWrapper>}
+                <Toaster />
+              </ThemeProvider>
+            </CurrentUserProvider>
           </Root>
         </I18nProvider>
       </body>

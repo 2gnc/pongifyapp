@@ -1,22 +1,22 @@
 'use client';
 
-import { type UserFrontT } from '@/entities/user';
 import { useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import {ListUl} from '@gravity-ui/icons';
 import {AsideHeader, type MenuItem} from '@gravity-ui/navigation';
 import {CrownDiamond} from '@gravity-ui/icons';
-import { mapUrlToPage } from '../lib/map-url-to-page';
-import Icon from '../img/icon.svg';
-import { PageEnum } from '../model/page-enum';
+import { mapUrlToPage } from '../../../features/navigation/lib/map-url-to-page';
+import Icon from './img/icon.svg'
+import { PageEnum } from '../../../features/navigation/model/page-enum';
+import { useCurrentUser } from '@/features/auth';
 
 type Props = {
-    user: UserFrontT;
     url: string | null;
 }
 
-export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) => {
+export const AsideBar: FC<PropsWithChildren<Props>> = ({ url, children }) => {
     const page = mapUrlToPage(url);
     const [compact, setCompact] = useState(true);
+    const user = useCurrentUser();
 
     const subheaderItems = useMemo(() => {
         const basic = [];
@@ -32,7 +32,7 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
             })
         }
         
-        if (user.ownedClub) {
+        if (user?.ownedClub) {
          basic.push({
                 item: {
                     id: 'club',
@@ -45,7 +45,7 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
         
         
         return basic;
-    }, [user.ownedClub, page]);
+    }, [user?.ownedClub, page]);
 
     const menuItems = useMemo<MenuItem[]>(() => {
         const basic = [];
@@ -59,7 +59,7 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
             });
         }
 
-        if (user.ownedClub) {
+        if (user?.ownedClub) {
          basic.push({
                 id: 'club',
                 icon: CrownDiamond,
@@ -69,7 +69,7 @@ export const AsideBar: FC<PropsWithChildren<Props>> = ({ user, url, children }) 
         }
 
         return basic;
-    }, [user.ownedClub, page]);
+    }, [user?.ownedClub, page]);
     
     return (
         <AsideHeader

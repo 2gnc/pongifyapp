@@ -8,6 +8,7 @@ import { ClublistItem } from './MemberListItem';
 
 type Props = {
     clubMembers: ClubMembersT;
+    clubId: string;
 }
 
 enum TabEnum {
@@ -16,7 +17,7 @@ enum TabEnum {
     BANNED = 'banned',
 }
 
-export const MembersList: FC<Props> = ({ clubMembers }) => {
+export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
     const t = useTranslations('i18n');
     const [currentFilter, setCurrentFilter] = useState(TabEnum.ALL);
 
@@ -30,8 +31,6 @@ export const MembersList: FC<Props> = ({ clubMembers }) => {
                 return clubMembers.banned
         }
     }, [clubMembers, currentFilter]);
-
-    console.log(filteredMembers);
 
     const options = useMemo(() => {
         return [
@@ -58,7 +57,7 @@ export const MembersList: FC<Props> = ({ clubMembers }) => {
             <List
                 className='mt-2 h-100'
                 items={filteredMembers}
-                renderItem={(item) => <ClublistItem  member={item} />}
+                renderItem={(item) => <ClublistItem clubId={clubId} member={item} />}
                 itemsHeight={300}
                 filterItem={(filter) => (item) => Boolean(item.userName?.includes(filter) || item.firstName?.includes(filter))}
             />

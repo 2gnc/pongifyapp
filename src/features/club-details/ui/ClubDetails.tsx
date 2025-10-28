@@ -49,7 +49,7 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
                 <div>
                     <TabPanel value="first">События</TabPanel>
                     <TabPanel value="second">
-                        <MembersList clubMembers={members} />
+                        <MembersList clubMembers={members} clubId={club.id} />
                     </TabPanel>
                     <TabPanel value="third">Статистика</TabPanel>
                     <TabPanel value="fourth">Учет</TabPanel>

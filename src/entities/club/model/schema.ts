@@ -20,6 +20,7 @@ const clubMemberSchema = z.object({
     telegramId: z.string(),
     userName: z.string().nullable(),
     firstName: z.string().nullable(),
+    clubId: z.string(),
     role: z.enum(['ADMIN', 'MEMBER', 'OWNER']),
     joinedAt: z.union([
         z.date(),
