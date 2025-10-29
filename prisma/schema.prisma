@@ -17,7 +17,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DIRECT_URL")
+  url      = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -30,7 +30,8 @@ model User {
 
   ownedClub        Club?           // владелец клуба (1:1)
   memberships      Membership[]    // членство в клубах
-  bans             Ban[]           // записи в банлистах клубов
+  bans             BanHistory[]    // записи в банлистах клубов
+  bansMadeBy       BanHistory[]    @relation("bansMadeBy") // <-- добавь это
 }
 
 model Club {
@@ -46,15 +47,16 @@ model Club {
 
   // участники и админы
   members          Membership[]
-  bans             Ban[]
+  bans             BanHistory[]
 }
 
 model Membership {
   id               String   @id @default(uuid())
-  userId           String
-  clubId           String
+  userId           String   
+  clubId           String   
   role             ClubRole @default(MEMBER)
   joinedAt         DateTime @default(now())
+  isBanned         Boolean  @default(false)
 
   user             User @relation(fields: [userId], references: [id])
   club             Club @relation(fields: [clubId], references: [id])
@@ -62,15 +64,18 @@ model Membership {
   @@unique([userId, clubId]) // нельзя дважды вступить в один клуб
 }
 
-model Ban {
-  id               String   @id @default(uuid())
-  clubId           String
-  userId           String
-  reason           String?
-  bannedAt         DateTime @default(now())
+model BanHistory {
+  id                String   @id @default(uuid())
+  clubId            String 
+  userId            String 
+  reason            String?
+  bannedById        String?          // кто назначил бан (опционально)
+  bannedAt          DateTime @default(now())
+  unbannedAt        DateTime?
 
-  club             Club @relation(fields: [clubId], references: [id])
-  user             User @relation(fields: [userId], references: [id])
+  club              Club @relation(fields: [clubId], references: [id])
+  user              User @relation(fields: [userId], references: [id])
+  bannedBy          User? @relation("bansMadeBy", fields: [bannedById], references: [id])
 
-  @@unique([clubId, userId]) // нельзя забанить дважды
+  @@unique([clubId, userId, bannedAt]) // гарантирует уникальность записи по времени
 }

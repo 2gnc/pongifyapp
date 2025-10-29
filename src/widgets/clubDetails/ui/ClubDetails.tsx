@@ -35,7 +35,7 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
             <div className='pb-2' />
             <Flex gap={2}>
                 {owner && <ClubUserLabel user={owner} role={ClubRole.OWNER} />}
-                {members.admins.map((admin) => <ClubUserLabel user={admin} role={ClubRole.ADMIN}  />)}
+                {members.admins.map((admin) => <ClubUserLabel key={admin.id} user={admin} role={ClubRole.ADMIN}  />)}
             </Flex>
             <Text className="block mt-2" color="secondary" variant="caption-2">{club.description}</Text>
             <TabProvider value={activeTab} onUpdate={setActiveTab}>

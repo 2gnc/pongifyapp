@@ -1,7 +1,7 @@
 
 import { getClubById, getClubMembers } from '@/entities/club';
 import { getUserFromCookies, getUserById } from '@/entities/user';
-import { ClubDetails } from '@/features/club-details';
+import { ClubDetails } from '@/widgets/clubDetails';
 
 export default async function Page({ params }: { searchParams: Promise<Record<string, string>>; params: Promise<{ id: string }>; }) {
     const { id } = await params;

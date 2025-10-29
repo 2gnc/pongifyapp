@@ -1,9 +1,9 @@
 import { type FC, useMemo } from 'react';
-import { ClubMemberBannedFrontT, ClubMemberFrontT } from '@/entities/club';
 import { DropdownMenu, type DropdownMenuItem, Flex } from '@gravity-ui/uikit';
+import { ClubMemberBannedFrontT, ClubMemberFrontT } from '@/entities/club';
 import { ClubUserLabel } from '../userLabel';
 import { useCurrentUser } from '@/features/auth';
-import { useAppointMemberAsAdmin, useDemoteMemberFromAdmin } from '@/features/manage-club-members';
+import { useAppointMemberAsAdmin, useDemoteMemberFromAdmin } from '@/features/manage-club-admins';
 
 type Props = {
     member: ClubMemberFrontT | ClubMemberBannedFrontT;
@@ -51,7 +51,7 @@ export const ClublistItem: FC<Props> = ({ member, clubId }) => {
         }
 
         return options;
-    }, [isBanned, isCurrentUserOwner, isCurrentUserAdmin, member.role]);
+    }, [isBanned, isCurrentUserOwner, isCurrentUserAdmin, member.role, appointAdminAction, demoteAdminAction]);
 
     return (
         <Flex justifyContent="space-between" alignItems="center" className="w-full block pt-2 pb-2" style={{ width: '100%' }}>
