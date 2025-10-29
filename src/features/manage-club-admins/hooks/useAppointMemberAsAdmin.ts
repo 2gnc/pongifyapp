@@ -1,3 +1,5 @@
+'use client'
+
 import toast from 'react-hot-toast';
 import { useActionState, startTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -24,7 +26,7 @@ export function useAppointMemberAsAdmin(clubId: string, userId: string) {
         } else {
             toast.error('Ошибка при назначении админом');
         }
-    }, [appointAdminState]);
+    }, [appointAdminState, router]);
 
     return {
         action: () => startTransition(() => appointAdminAction({ clubId, userId })),

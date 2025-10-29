@@ -40,11 +40,11 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
             <Text className="block mt-2" color="secondary" variant="caption-2">{club.description}</Text>
             <TabProvider value={activeTab} onUpdate={setActiveTab}>
                 <TabList className='mt-2'>
-                    <Tab value="first" disabled><Calendar /></Tab>
-                    <Tab value="second"><Persons /></Tab>
-                    <Tab value="third" disabled><ChartLine /></Tab>
-                    { isUserOwner && <Tab value="fourth" disabled><ChartLineLabel /></Tab> }
-                    { isUserOwner && <Tab value="fifth"><PersonPlus /></Tab> }
+                    <Tab value="first" disabled><Calendar width={24} height={24} /></Tab>
+                    <Tab value="second"><Persons width={24} height={24} /></Tab>
+                    <Tab value="third" disabled><ChartLine width={24} height={24} /></Tab>
+                    { isUserOwner && <Tab value="fourth" disabled><ChartLineLabel width={24} height={24} /></Tab> }
+                    { isUserOwner && <Tab value="fifth"><PersonPlus width={24} height={24} /></Tab> }
                 </TabList>
                 <div>
                     <TabPanel value="first">События</TabPanel>
