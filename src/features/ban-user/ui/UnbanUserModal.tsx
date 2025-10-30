@@ -55,6 +55,7 @@ export const UnbanUserModal: FC<Props> = ({
                 <Flex gap={2}>
                     <Button
                         view='action'
+                        type='submit'
                         onClick={onSubmit}
                         loading={isPending}
                         disabled={isPending}
