@@ -2,12 +2,10 @@
 
 import { prisma } from '@/shared/prisma';
 import { ErrorCodeEnum } from '@/shared/errors/errorCodes';
-import { banUserSchema } from '../model/schema';
+import { banUserSchema, BanUserT } from '../model/schema';
 
 
-export async function banUserAction(data: unknown): Promise<{ success: true }>
-export async function banUserAction(data: unknown): Promise<{ success: false; error: ErrorCodeEnum }>
-export async function banUserAction(data: unknown): Promise<{ success: true } | { success: false; error: ErrorCodeEnum }> {
+export async function banUserAction(data: BanUserT): Promise<{ success: true } | { success: false; error: ErrorCodeEnum }> {
     try {
         const pasedData = banUserSchema.parse(data);
         const { userId, clubId, reason, bannedById } = pasedData;
@@ -20,13 +18,12 @@ export async function banUserAction(data: unknown): Promise<{ success: true } | 
             throw new Error('Пользователь уже забанен');
         }
 
-        // Обновляем membership: помечаем как забаненного
         await prisma.membership.updateMany({
             where: { userId, clubId },
             data: { isBanned: true },
         });
 
-        const banRecord = await prisma.banHistory.create({
+        await prisma.banHistory.create({
             data: {
                 userId,
                 clubId,
@@ -35,9 +32,11 @@ export async function banUserAction(data: unknown): Promise<{ success: true } | 
             },
         });
     
-        return { success: true }
+        return { success: true };
     } catch(e) {
         console.error('❌ banUserAction error:', e);
-        return { success: false, error: ErrorCodeEnum.INTERNAL }
+        return { success: false, error: ErrorCodeEnum.INTERNAL };
     }
 }
+
+export type BanUserResult = Awaited<ReturnType<typeof banUserAction>>;

@@ -38,7 +38,7 @@ export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
             <SegmentedRadioGroup.Option key="admins" value={TabEnum.ADMINS}>{t('membersList.admins')}</SegmentedRadioGroup.Option>,
             <SegmentedRadioGroup.Option key="banned" value={TabEnum.BANNED}>{t('membersList.banned')}</SegmentedRadioGroup.Option>,
         ]
-    }, []);
+    }, [t]);
 
     return (
         <>

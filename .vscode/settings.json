@@ -1,1 +1,25 @@
-{}
+{
+    "favorites.resources": [
+        {
+            "filePath": "src/app",
+            "group": "Default"
+        },
+        {
+            "filePath": "src/widgets",
+            "group": "Default"
+        },
+        {
+            "filePath": "src/features",
+            "group": "Default"
+        },
+        {
+            "filePath": "src/entities",
+            "group": "Default"
+        },
+        {
+            "filePath": "src/shared",
+            "group": "Default"
+        }
+    ],
+    "favorites.sortOrder": "MANUAL"
+}
