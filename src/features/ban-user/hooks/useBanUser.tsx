@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { banUserAction, BanUserResult } from '../api/banUser.action';
 import { BanUserT } from '../model/schema';
 
-export function useBanUser(data: BanUserT) {
+export function useBanUser(data: BanUserT, onSuccess?: () => void) {
     const router = useRouter();
 
     const [banState, banMemberAction, banPending] = useActionState<
@@ -24,15 +24,16 @@ export function useBanUser(data: BanUserT) {
 
         if (banState.success) {
             toast.success('Пользователь забанен');
+            onSuccess?.();
             router.refresh();
         } else {
             toast.error(`Ошибка при бане: ${banState.error}`);
         }
-    }, [banState, router]);
+    }, [banState, router, onSuccess]);
 
     const banUser = useCallback((reason: string) => {
         startTransition(() => banMemberAction({ ...data, reason }));
     }, [banMemberAction, data]);
 
-    return { banUser, isPending: banPending };
+    return { action: banUser, isPending: banPending };
 }

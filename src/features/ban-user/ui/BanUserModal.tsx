@@ -1,4 +1,4 @@
-import { type FC, memo } from 'react';
+import { type FC, useCallback } from 'react';
 import { Button, Modal, TextArea, Flex, Text } from '@gravity-ui/uikit';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,16 +6,16 @@ import { BanUserFormT, banUserFormSchema } from '../model/schema';
 
 type Props = {
     isModalOpen: boolean;
-    setModalOpen: (open: boolean) => void;
     onSubmit: (reason: string) => void;
     userName: string;
     isPending?: boolean;
+    onCancel: () => void;
 };
 
 export const BanUserModal: FC<Props> = ({
     isModalOpen,
-    setModalOpen,
     onSubmit,
+    onCancel,
     userName,
     isPending = false
 }) => {
@@ -26,23 +26,22 @@ export const BanUserModal: FC<Props> = ({
 
     const { control, handleSubmit, reset } = formMethods;
     
-    const onCancel = () => {
-        setModalOpen(false);
+    const handleCancel = useCallback(() => {
+        onCancel();
         reset();
-    };
+    }, [onCancel, reset]);
 
-    const handleFormSubmit = (data: BanUserFormT) => {
+    const handleFormSubmit = useCallback((data: BanUserFormT) => {
         onSubmit(data.reason);
-    };
+    }, [onSubmit]);
+
+    if (!isModalOpen) {
+        return null;
+    }
 
     return (
         <Modal
             open={isModalOpen}
-            onOpenChange={(open) => {
-                if (!open) {
-                    setModalOpen(false);
-                }
-            }}
             disableEscapeKeyDown
             disableOutsideClick
             className='size-auto'
@@ -80,7 +79,7 @@ export const BanUserModal: FC<Props> = ({
                     </Button>
                     <Button
                         type="button"
-                        onClick={onCancel}
+                        onClick={handleCancel}
                         view='normal'
                         disabled={isPending}
                     >

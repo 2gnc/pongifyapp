@@ -21,15 +21,16 @@ export const ClubUserLabel: FC<Props> = ({ user, role, clear = false }) => {
     }, [user?.userName]);
 
     const { Icon, color } = useMemo(() => {
+        if ((user as ClubMemberBannedFrontT).bannedAt) {
+            return { Icon: PersonXmark, color: '#f54242' }; // красный
+        }
+
         switch (role) {
             case ClubRole.OWNER:
                 return { Icon: CrownDiamond, color: '#f5c542' }; // золотой
             case ClubRole.ADMIN:
                 return { Icon: PersonWorker, color: '#4a90e2' }; // синий
             default:
-                if ((user as ClubMemberBannedFrontT).bannedAt) {
-                    return { Icon: PersonXmark, color: '#f54242' }; // красный
-                }
                 return { Icon: Person, color: '#999' }; // серый
         }
     }, [role, user]);
