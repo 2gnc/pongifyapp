@@ -18,6 +18,15 @@ export async function banUserAction(data: BanUserT): Promise<{ success: true } |
             throw new Error('Пользователь уже забанен');
         }
 
+        const userToBan = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { ownedClub: true },
+        });
+
+        if (userToBan && userToBan.ownedClub?.id === clubId) {
+            throw new Error('Нельзя банить владельца клуба');
+        }
+
         await prisma.membership.updateMany({
             where: { userId, clubId },
             data: { isBanned: true },
@@ -40,5 +49,3 @@ export async function banUserAction(data: BanUserT): Promise<{ success: true } |
 }
 
 export type BanUserResult = Awaited<ReturnType<typeof banUserAction>>;
-
-// TODO! Админ не может забанить оунера

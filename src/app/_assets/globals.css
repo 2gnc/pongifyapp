@@ -4,26 +4,24 @@
 
 
 :root {
-  --tg-theme-bg-color: unset !important;
-  --tg-theme-text-color: unset !important;
-  --tg-theme-hint-color: unset !important;
-  --tg-theme-link-color: unset !important;
-  --tg-theme-button-color: unset !important;
-  --tg-theme-button-text-color: unset !important;
-  --tg-color-scheme: unset !important;
+  /* Telegram theme variables are handled by @telegram-apps/sdk-react */
 }
 
 @layer base {
   html, body {
     @apply font-sans;
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    min-height: 100dvh; /* Dynamic viewport height for mobile devices */
+    display: flex;
+    flex-direction: column;
   }
 }
 
 body {
-  background-color: var(--color-bg) !important;
-  color: var(--color-text) !important;
+  background-color: var(--tg-theme-bg-color, #ffffff);
+  color: var(--tg-theme-text-color, #000000);
+  flex: 1; /* Allow body to grow and fill available space */
 }
 
 /* body {
