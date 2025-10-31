@@ -10,6 +10,19 @@ enum ClubRole {
   ADMIN
 }
 
+enum EventType {
+  DRAFT
+  SEALED
+  TWO_PICKS_DRAFT
+  PRERELEASE
+  COMMANDER_DRAFT
+  BUNDLE_SEALED
+  DISPLAY_SEALED
+  COMMANDER_PARTY
+  CUBE_DRAFT
+  RAINBOW_DRAFT
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -47,6 +60,7 @@ model Club {
 
   // участники и админы
   members          Membership[]
+  events           Event[]        // события клуба
   bans             BanHistory[]
 }
 
@@ -78,4 +92,26 @@ model BanHistory {
   bannedBy          User? @relation("bansMadeBy", fields: [bannedById], references: [id])
 
   @@unique([clubId, userId, bannedAt]) // гарантирует уникальность записи по времени
+}
+
+model Event {
+  id                 String        @id @default(uuid())
+  clubId             String
+  club               Club          @relation(fields: [clubId], references: [id])
+  type               EventType
+  startAt            DateTime
+  description        String
+  setCodes           String[]      // массив кодов сетов
+  maxParticipants    Int?          // если null, то неограничено
+  registrationOpensAt DateTime
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+}
+
+model Set {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  name            String
+  iconSvgUri      String
+  parentSetCode   String?   // опционально, код родительского сета (если есть)
 }

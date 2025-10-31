@@ -24,6 +24,12 @@
       "all": "Все",
       "admins": "Админы",
       "banned": "Баны"
+    },
+    "eventsList": {
+      "futureTab": "Будущие",
+      "pastTab": "Прошедшие",
+      "title": "События клуба",
+      "createEvent": "Создать событие"
     }
   }
 }

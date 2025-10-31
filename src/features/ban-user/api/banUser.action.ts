@@ -40,3 +40,5 @@ export async function banUserAction(data: BanUserT): Promise<{ success: true } |
 }
 
 export type BanUserResult = Awaited<ReturnType<typeof banUserAction>>;
+
+// TODO! Админ не может забанить оунера

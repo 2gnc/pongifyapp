@@ -44,10 +44,10 @@ export const UnbanUserModal: FC<Props> = ({
         >
             <div className='p-4'>
                 <Text color="primary" variant="subheader-3">
-                    {`Подтвердите разбан пользователя ${displayName}`}
+                    {`Разбанить пользователя ${displayName}?`}
                 </Text>
                 
-                <Text className="block mt-2 mb-4" color="secondary" variant="body-2">
+                <Text className="block mt-1 mb-2" color="secondary" variant="caption-2">
                     {`Этот пользователь был забанен ${formattedDate}`}
                     {reason && ` по причине: ${reason}`}
                 </Text>
