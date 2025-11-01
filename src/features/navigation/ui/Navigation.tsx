@@ -3,10 +3,13 @@
 import { type FC, useState, useCallback } from 'react';
 import { NavButton } from './NavButton';
 import { Sheet, List, Divider } from '@gravity-ui/uikit';
-import {CrownDiamond} from '@gravity-ui/icons';
+import { CrownDiamond, Comments, Bookmark } from '@gravity-ui/icons';
 import { mapUrlToPage } from '../lib/map-url-to-page';
 import { useCurrentUser } from '@/features/auth';
 import Link from 'next/link';
+import { PageEnum  } from '../model/page-enum';
+import { NavItem } from './NavItem';
+import { useTranslations } from 'next-intl';
 
 type Props = {
     url: string | null;
@@ -15,6 +18,7 @@ type Props = {
 export const Navigation: FC<Props> = ({ url }) => {
     const [visible, setVisible] = useState(false);
     const user = useCurrentUser();
+    const t = useTranslations('i18n');
 
     const page = mapUrlToPage(url);
 
@@ -26,22 +30,41 @@ export const Navigation: FC<Props> = ({ url }) => {
         setVisible(true);
     }, []);
 
+    if (!user) return null;
+    
+    const ownedClubLink = page === PageEnum.CLUB_DETAIL ? '#' : `/clubs/${user?.ownedClub?.clubId}`;
+    const allMembershipLength = user?.member.length && user.admin.length;
+    const hasOwnedClub = Boolean(user?.ownedClub);
+    const hasAdminnedClubs = Boolean(user?.admin.length);
+
     return (
         <>
             <NavButton onClick={handleOpenSheet} />
-            <Sheet visible={visible} onClose={handleCloseSheet}>
-                <Divider align='center'>
-                    <CrownDiamond className='mr-2'/>
-                    Управление клубом
+            <Sheet visible={visible} onClose={handleCloseSheet} contentClassName='mb-8'>
+                {
+                    (hasAdminnedClubs || hasOwnedClub) && (
+                        <Divider align='center' className='mt-2'>
+                            <CrownDiamond className='mr-2'/>
+                            {t('navigation.clubManagement')}
+                        </Divider>
+                    )
+                }
+                {hasOwnedClub && <NavItem title={user?.ownedClub?.clubName!} link={ownedClubLink} />}
+                {hasAdminnedClubs && user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} /> )}
+                <Divider align='center' className='mt-2'>
+                    <Comments className='mr-2' />
+                    {t('navigation.community')}
                 </Divider>
-                Создать событие
-                Управление участниками
-                Инвайты
-                <Divider align='center'>
-                    Мои клубы
-                </Divider>
-                <Link href={`/clubs`}>Все клубы ()</Link>
-                <Link href={`/events`}>Ближайшие события</Link>
+                    <NavItem title={t('navigation.allClubs')} link={'/clubs'} />
+                    <NavItem title={t('navigation.allEvents')} />
+                {allMembershipLength > 0 && (
+                    <Divider align='center' className='mt-2'>
+                        <Bookmark className='mr-2' />
+                        {t('navigation.myClubs')}
+                    </Divider>
+                )}
+                {user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} />)}
+                {user.member.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} />)}
             </Sheet>
         </>
     );

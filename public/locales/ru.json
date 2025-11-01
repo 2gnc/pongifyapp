@@ -30,6 +30,14 @@
       "pastTab": "Прошедшие",
       "title": "События клуба",
       "createEvent": "Создать событие"
+    },
+    "navigation": {
+      "allClubs": "Все клубы",
+      "community": "Сообщество",
+      "soon": "скоро",
+      "allEvents": "Все события",
+      "clubManagement": "Управление клубом",
+      "myClubs": "Мои клубы"
     }
   }
 }

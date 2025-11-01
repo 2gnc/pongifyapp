@@ -2,7 +2,6 @@ import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
-// import { AsideBar } from '@/widgets/asideBar';
 import { ClientDevTools } from '@/shared/devtools';
 import { PageWrapper } from '@/shared/ui';
 import { Toaster } from 'react-hot-toast';
@@ -40,12 +39,10 @@ export default async function RootLayout({ children }: PropsWithChildren) {
             <CurrentUserProvider value={currentUser}>
               <TelegramThemeProvider>
                 <ClientDevTools />
-                  {/* <AsideBar url={url}> */}
                   <PageWrapper>{children}</PageWrapper>
-                  {/* </AsideBar> */}
                 {!currentUser && <PageWrapper>{children}</PageWrapper>}
                 <Toaster />
-                <Navigation />
+                <Navigation url={url} />
               </TelegramThemeProvider>
             </CurrentUserProvider>
           </Root>
