@@ -4,13 +4,13 @@ import React from 'react';
 import Image from 'next/image';
 
 interface NavButtonProps {
-  handleClick: () => void;
+  onClick: () => void;
 }
 
-export const NavButton: React.FC<NavButtonProps> = ({ handleClick }) => {
+export const NavButton: React.FC<NavButtonProps> = ({ onClick }) => {
   return (
     <button
-      onClick={handleClick}
+      onClick={onClick}
       className="absolute bottom-5 left-5 z-[9999] border-none bg-transparent cursor-pointer p-0 transition-transform duration-100 active:scale-95"
     >
       <Image
