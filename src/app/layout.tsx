@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
+import { headers } from 'next/headers';
 import { getLocale } from 'next-intl/server';
 import { ClientDevTools } from '@/shared/devtools';
 import { PageWrapper } from '@/shared/ui';

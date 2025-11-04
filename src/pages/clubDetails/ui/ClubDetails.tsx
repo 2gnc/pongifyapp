@@ -61,6 +61,8 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
                         <EventsList
                             canCreateEventLoading={canCreateEventLoading}
                             canCreateEvent={canCreateEvent}
+
+                            clubId={club.id}
                         />
                     </TabPanel>
                     <TabPanel value="second">

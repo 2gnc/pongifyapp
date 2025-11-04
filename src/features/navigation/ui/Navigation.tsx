@@ -49,13 +49,13 @@ export const Navigation: FC<Props> = ({ url }) => {
                         </Divider>
                     )
                 }
-                {hasOwnedClub && <NavItem title={user?.ownedClub?.clubName!} link={ownedClubLink} />}
-                {hasAdminnedClubs && user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} /> )}
+                {hasOwnedClub && <NavItem title={user?.ownedClub?.clubName!} link={ownedClubLink} onClose={handleCloseSheet} />}
+                {hasAdminnedClubs && user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} /> )}
                 <Divider align='center' className='mt-2'>
                     <Comments className='mr-2' />
                     {t('navigation.community')}
                 </Divider>
-                    <NavItem title={t('navigation.allClubs')} link={'/clubs'} />
+                    <NavItem title={t('navigation.allClubs')} link={'/clubs'} onClose={handleCloseSheet} />
                     <NavItem title={t('navigation.allEvents')} />
                 {allMembershipLength > 0 && (
                     <Divider align='center' className='mt-2'>
@@ -63,8 +63,8 @@ export const Navigation: FC<Props> = ({ url }) => {
                         {t('navigation.myClubs')}
                     </Divider>
                 )}
-                {user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} />)}
-                {user.member.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} />)}
+                {user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} />)}
+                {user.member.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} />)}
             </Sheet>
         </>
     );

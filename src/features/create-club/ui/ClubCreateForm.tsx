@@ -9,7 +9,7 @@ import { FormRow } from '@gravity-ui/components';
 import { TextInput, TextArea, Switch, Button, Text } from '@gravity-ui/uikit';
 import { useTranslations } from 'next-intl';
 import { clubCreateSchema, ClubCreateSchemaT, createClubFormDefaultValues } from '@/entities/club';
-import { clubCreateAction } from '@/features/club-create';
+import { clubCreateAction } from '@/features/create-club';
 
 type Props = {}
 

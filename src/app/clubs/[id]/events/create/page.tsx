@@ -1,7 +1,5 @@
-import { ClubCreate } from '@/features/create-club';
-
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
     return (
-        <ClubCreate />
-    );
+        <h1>Create Event</h1>
+    )
 }
