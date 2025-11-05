@@ -37,7 +37,8 @@
       "soon": "скоро",
       "allEvents": "Все события",
       "clubManagement": "Управление клубом",
-      "myClubs": "Мои клубы"
+      "myClubs": "Мои клубы",
+      "superAdmin": "Супер-админ"
     }
   }
 }

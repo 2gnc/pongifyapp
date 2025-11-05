@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import { Root } from '@/components/Root/Root';
 import { I18nProvider } from '@/shared/i18n/provider';
 import { getUserFromCookies } from '@/entities/user';
-import { TelegramThemeProvider } from '@/components/TelegramThemeProvider';
+import { TelegramThemeProvider } from '@/features/auth/TelegramThemeProvider';
 
 import 'normalize.css/normalize.css';
 

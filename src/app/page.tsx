@@ -10,6 +10,9 @@ import { type UserFrontT } from '@/entities/user'
 export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string>> }) {
   const userData = await getUserFromCookies();
 
+  console.log('🤮🤮🤮🤮🤮DATABASE_URL in runtime:', process.env.DATABASE_URL);
+
+
   if (userData) {
     if (!userData.canCreateClub) {
       redirect('/clubs');

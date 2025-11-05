@@ -1,12 +1,11 @@
 'use client'
 
-import { type FC, useState, useCallback } from 'react';
+import { type FC, useState, useCallback, useEffect } from 'react';
 import { NavButton } from './NavButton';
 import { Sheet, List, Divider } from '@gravity-ui/uikit';
 import { CrownDiamond, Comments, Bookmark } from '@gravity-ui/icons';
 import { mapUrlToPage } from '../lib/map-url-to-page';
-import { useCurrentUser } from '@/features/auth';
-import Link from 'next/link';
+import { useCurrentUser, checkIsSuperAdmin } from '@/features/auth';
 import { PageEnum  } from '../model/page-enum';
 import { NavItem } from './NavItem';
 import { useTranslations } from 'next-intl';
@@ -17,6 +16,8 @@ type Props = {
 
 export const Navigation: FC<Props> = ({ url }) => {
     const [visible, setVisible] = useState(false);
+    const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+
     const user = useCurrentUser();
     const t = useTranslations('i18n');
 
@@ -28,6 +29,10 @@ export const Navigation: FC<Props> = ({ url }) => {
 
     const handleOpenSheet = useCallback(() => {
         setVisible(true);
+    }, []);
+
+    useEffect(() => {
+        checkIsSuperAdmin().then(setIsSuperAdmin);
     }, []);
 
     if (!user) return null;
@@ -65,6 +70,14 @@ export const Navigation: FC<Props> = ({ url }) => {
                 )}
                 {user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} />)}
                 {user.member.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} />)}
+                {isSuperAdmin && (
+                    <>
+                        <Divider align='center' className='mt-2'>
+                            {t('navigation.superAdmin')}
+                        </Divider>
+                        <NavItem title={t('navigation.superAdmin')} link={'/superadmin'} onClose={handleCloseSheet} />
+                    </>
+                )}
             </Sheet>
         </>
     );
