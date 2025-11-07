@@ -42,6 +42,7 @@ export const Navigation: FC<Props> = ({ url }) => {
     const hasOwnedClub = Boolean(user?.ownedClub);
     const hasAdminnedClubs = Boolean(user?.admin.length);
 
+    console.log('😄', ownedClubLink);
     return (
         <>
             <NavButton onClick={handleOpenSheet} />

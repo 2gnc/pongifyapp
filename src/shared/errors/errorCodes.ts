@@ -4,4 +4,5 @@ export enum ErrorCodeEnum {
     NOT_FOUND = 'NOT_FOUND',
     HAS_CLUB_ALREADY = 'HAS_CLUB_ALREADY',
     INTERNAL = 'INTERNAL',
+    FORBIDDEN = 'FORBIDDEN',
 }

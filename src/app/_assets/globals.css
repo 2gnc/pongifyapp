@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   /* Telegram theme variables are handled by @telegram-apps/sdk-react */
+  --pong-bg-base: rgb(239, 239, 239);
+  --pong-bg-dark: #3D5A80;
+  --pong-text: #293241;
+  --pong-accent: #EE6C4D;
+  --pong-blue-light: #E0FBFC;
+  --pong-blue-med: #98C1D9;
 }
 
 @layer base {

@@ -17,7 +17,15 @@
     "club": {
       "isOpen": "Открыт для всех",
       "isClosed": "Частный клуб",
-      "created": "Создан"
+      "created": "Создан",
+      "club": "Клуб",
+      "membersCount": "Участников",
+      "eventsCount": "Событий",
+      "admins": "Админы",
+      "nextEvent": "Ближайшее событие",
+      "mages": "{count, plural, zero {еще нет участников} one {# участник} few {# участника} many {# участников} other {# участников}} в клубе",
+      "pastEvents": "Сыграно",
+      "nextEvents": "Запланировано"
     },
     "membersList": {
       "title": "Участники клуба",
@@ -30,6 +38,25 @@
       "pastTab": "Прошедшие",
       "title": "События клуба",
       "createEvent": "Создать событие"
+    },
+    "event-create": {
+      "descriptionText": "descriptionText",
+      "title": "Новое событие",
+      "type": "Тип события",
+      "descriptionPlaceholder": "Описание события",
+      "description": "Описание"
+    },
+    "eventTypes": {
+      "DRAFT": "Draft",
+      "SEALED": "Sealed",
+      "TWO_PICKS_DRAFT": "Two Picks Draft",
+      "PRERELEASE": "Prerelease",
+      "COMMANDER_DRAFT": "Commander Draft",
+      "BUNDLE_SEALED": "Bundle Sealed",
+      "DISPLAY_SEALED": "Display Sealed",
+      "COMMANDER_PARTY": "Commander Party",
+      "CUBE_DRAFT": "Cube Draft",
+      "RAINBOW_DRAFT": "Rainbow Draft"
     },
     "navigation": {
       "allClubs": "Все клубы",

@@ -14,12 +14,18 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
-        "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
         bg: 'var(--g-color-base-background)',
         text: 'var(--g-color-text-primary)',
         accent: 'var(--g-color-base-brand)',
+        "pong-bg": 'var(--pong-bg-base)',
+        "pong-bg-dark": 'var(--pong-bg-dark)',
+        "pong-text": 'var(--pong-text)',
+        "pong-accent": 'var(--pong-accent)',
+        "pong-blue-light": 'var(--pong-blue-light)',
+        "pong-blue-med": 'var(--pong-blue-med)',
       },
     },
   },
