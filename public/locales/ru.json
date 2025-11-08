@@ -47,20 +47,22 @@
       "descriptionText": "descriptionText",
       "title": "Новое событие",
       "type": "Тип события",
-      "descriptionPlaceholder": "Описание события",
-      "description": "Описание"
+      "descriptionPlaceholder": "Описание события: время начала, примерная стоимость, другая важная игрокам информация",
+      "description": "Описание",
+      "sets": "Сеты",
+      "setsPlaceholder": "Начните вводить название сета для поиска"
     },
     "eventTypes": {
       "DRAFT": "Драфт",
       "SEALED": "Силед",
-      "TWO_PICKS_DRAFT": "Двухпиковый драфт",
+      "TWO_PICKS_DRAFT": "Двапики",
       "PRERELEASE": "Пререлиз",
-      "COMMANDER_DRAFT": "Драфт командира",
-      "BUNDLE_SEALED": "Силед с бандлами",
-      "DISPLAY_SEALED": "Силед с дисплеями",
-      "COMMANDER_PARTY": "Вечеринка командира",
+      "COMMANDER_DRAFT": "ЕДХ Драфт",
+      "BUNDLE_SEALED": "Силед на бандлах",
+      "DISPLAY_SEALED": "Силед на дисплеях",
+      "COMMANDER_PARTY": "ЕДХ вечеринка",
       "CUBE_DRAFT": "Куб-драфт",
-      "RAINBOW_DRAFT": "Радужный драфт"
+      "RAINBOW_DRAFT": "Хаос драфт"
     },
     "navigation": {
       "allClubs": "Все клубы",

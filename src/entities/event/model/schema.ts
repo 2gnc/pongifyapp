@@ -13,7 +13,7 @@ export const eventCreateSchema = z.object({
 export type EventCreateSchemaT = z.infer<typeof eventCreateSchema>;
 
 export const createEventFormDefaultValues = {
-    type: 'DRAFT' as const,
+    type: EventType.DRAFT,
     startAt: "",
     description: "",
     setCodes: [],

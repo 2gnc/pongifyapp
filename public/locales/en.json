@@ -46,8 +46,10 @@
       "descriptionText": "descriptionText",
       "title": "Новое событие",
       "type": "Тип события",
-      "descriptionPlaceholder": "Описание события",
-      "description": "Описание"
+      "descriptionPlaceholder": "Описание события: время начала, примерная стоимость, другая важная игрокам информация",
+      "description": "Описание",
+      "sets": "Sets",
+      "setsPlaceholder": "Start typing set name to search"
     },
     "eventTypes": {
       "DRAFT": "Draft",
