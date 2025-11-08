@@ -4,11 +4,12 @@ import { useMemo, useState, type FC } from 'react';
 import { useTranslations } from 'next-intl';
 import { Text, SegmentedRadioGroup, List, Flex } from '@gravity-ui/uikit';
 import { ClubMembersT } from '@/entities/club';
-import { ClublistItem } from './MemberListItem';
+import { MembersListItem } from './MemberListItem';
 
 type Props = {
     clubMembers: ClubMembersT;
     clubId: string;
+    tab: 'admins' | 'members' | 'bans' | 'all';
 }
 
 enum TabEnum {
@@ -17,9 +18,15 @@ enum TabEnum {
     BANNED = 'banned',
 }
 
-export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
+function mapTabToTabEnum(tab: 'admins' | 'members' | 'bans' | 'all'): TabEnum {
+    if (tab === 'admins') return TabEnum.ADMINS;
+    if (tab === 'bans') return TabEnum.BANNED;
+    return TabEnum.ALL;
+}
+
+export const MembersList: FC<Props> = ({ clubMembers, clubId, tab }) => {
     const t = useTranslations('i18n');
-    const [currentFilter, setCurrentFilter] = useState(TabEnum.ALL);
+    const [currentFilter, setCurrentFilter] = useState(mapTabToTabEnum(tab));
 
     const filteredMembers = useMemo(() => {
         switch (currentFilter) {
@@ -43,7 +50,6 @@ export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
     return (
         <>
             <Flex className='mt-2' gap={2} justifyContent='space-between'>
-                <Text color="primary" variant="subheader-3" >{t('membersList.title')}</Text>
                 <SegmentedRadioGroup
                     value={currentFilter}
                     onUpdate={setCurrentFilter}
@@ -57,7 +63,7 @@ export const MembersList: FC<Props> = ({ clubMembers, clubId }) => {
             <List
                 className='mt-2 h-100'
                 items={filteredMembers}
-                renderItem={(item) => <ClublistItem clubId={clubId} member={item} />}
+                renderItem={(item) => <MembersListItem clubId={clubId} member={item} />}
                 itemsHeight={300}
                 filterItem={(filter) => (item) => Boolean(item.userName?.includes(filter) || item.firstName?.includes(filter))}
             />

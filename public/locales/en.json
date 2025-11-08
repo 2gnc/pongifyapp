@@ -22,13 +22,16 @@
       "membersCount": "Участников",
       "eventsCount": "Событий",
       "admins": "Админы",
+      "members": "Участники",
       "nextEvent": "Ближайшее событие",
       "mages": "{count, plural, zero {еще нет участников} one {# участник} few {# участника} many {# участников} other {# участников}} в клубе",
       "pastEvents": "Сыграно",
-      "nextEvents": "Запланировано"
+      "nextEvents": "Запланировано",
+      "createEvent": "Добавить событие",
+      "invites": "Инвайты",
+      "fin": "Учет"
     },
     "membersList": {
-      "title": "Участники клуба",
       "all": "Все",
       "admins": "Админы",
       "banned": "Баны"

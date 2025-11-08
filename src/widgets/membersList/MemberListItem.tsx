@@ -11,7 +11,7 @@ type Props = {
     clubId: string;
 };
 
-export const ClublistItem: FC<Props> = memo(({ member, clubId }) => {
+export const MembersListItem: FC<Props> = memo(({ member, clubId }) => {
     const [isBanModalOpen, setBanModalOpen] = useState(false);
     const [isUnbanModalOpen, setUnbanModalOpen] = useState(false);
 
@@ -89,7 +89,7 @@ export const ClublistItem: FC<Props> = memo(({ member, clubId }) => {
     return (
         <>
             <Flex justifyContent="space-between" alignItems="center" className="w-full block pt-2 pb-2" style={{ width: '100%' }}>
-                <ClubUserLabel user={member} role={member.role} clear />
+                <ClubUserLabel user={member} role={member.role} color='light' />
                 { options.length && <DropdownMenu size="l" items={options} disabled={appointAdminPending || demoteAdminPending || banUserPending || unbanUserPending} /> }
             </Flex>
             <BanUserModal
@@ -112,4 +112,4 @@ export const ClublistItem: FC<Props> = memo(({ member, clubId }) => {
     );
 });
 
-ClublistItem.displayName = 'ClublistItem';
+MembersListItem.displayName = 'MembersListItem';

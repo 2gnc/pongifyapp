@@ -1,1 +1,1 @@
-export { EventsList } from './ui/EventsList';
+export { EventsList, EventTabEnum } from './ui/EventsList';

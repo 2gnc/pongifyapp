@@ -3,26 +3,27 @@
 import { type FC, useMemo, useState } from 'react';
 import { Text, SegmentedRadioGroup, Button, Flex } from '@gravity-ui/uikit';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link'
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-enum TabEnum {
+export enum EventTabEnum {
     FUTURE = 'future',
     PAST = 'past',
 }
 
 type PropsT = {
-    canCreateEventLoading: boolean;
     canCreateEvent: boolean;
-    clubId: string;
+    tab: EventTabEnum;
 };
 
-export const EventsList:FC<PropsT> = ({ canCreateEventLoading, canCreateEvent, clubId }) => {
+export const EventsList:FC<PropsT> = ({ canCreateEvent, tab }) => {
     const t = useTranslations('i18n');
-    const [currentFilter, setCurrentFilter] = useState(TabEnum.FUTURE);
+    const [currentFilter, setCurrentFilter] = useState(tab);
+    const { id: clubId } = useParams();
     
     const options = useMemo(() => [
-        <SegmentedRadioGroup.Option key={TabEnum.FUTURE} value={TabEnum.FUTURE}>{t('eventsList.futureTab')}</SegmentedRadioGroup.Option>,
-        <SegmentedRadioGroup.Option key={TabEnum.PAST} value={TabEnum.PAST}>{t('eventsList.pastTab')}</SegmentedRadioGroup.Option>,
+        <SegmentedRadioGroup.Option key={EventTabEnum.FUTURE} value={EventTabEnum.FUTURE}>{t('eventsList.futureTab')}</SegmentedRadioGroup.Option>,
+        <SegmentedRadioGroup.Option key={EventTabEnum.PAST} value={EventTabEnum.PAST}>{t('eventsList.pastTab')}</SegmentedRadioGroup.Option>,
     ], [t]);
 
     return (
@@ -33,13 +34,13 @@ export const EventsList:FC<PropsT> = ({ canCreateEventLoading, canCreateEvent, c
                     value={currentFilter}
                     onUpdate={setCurrentFilter}
                     name="filter"
-                    defaultValue={TabEnum.FUTURE}
+                    defaultValue={EventTabEnum.FUTURE}
                     size="s"
                 >
                     {options}
                 </SegmentedRadioGroup>
             </Flex>
-            {(canCreateEvent && !canCreateEventLoading) && (
+            {canCreateEvent && (
                 <Flex className='mt-2 mb-2'>
                     <Link href={`/clubs/${clubId}/events/create`} className='w-full' prefetch>
                         <Button view="action" width="max">{t('eventsList.createEvent')}</Button>
