@@ -55,6 +55,7 @@ export async function eventCreateAction(formData: EventCreateSchemaT, clubId: st
         });
 
         return { success: true, data: event };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_e) {
         return { success: false, error: ErrorCodeEnum.INTERNAL };
     }

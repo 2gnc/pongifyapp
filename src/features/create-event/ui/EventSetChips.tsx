@@ -1,106 +1,108 @@
 'use client'
 
-import { Button, Label, TextInput, Popover } from '@gravity-ui/uikit'
-import { FC, useCallback, useEffect, useState, useRef } from 'react'
-import { UseFormReturn } from 'react-hook-form'
-import { EventCreateSchemaT } from '@/entities/event'
-import { searchSetsAction } from '../actions/searchSets.action'
+import { FC, useCallback, useEffect, useState, useRef, useMemo, useTransition } from 'react';
+import { UseFormReturn } from 'react-hook-form';
+import { Button, Label, TextInput, Popover } from '@gravity-ui/uikit';
+import { Plus } from '@gravity-ui/icons';
+import { debounce } from 'lodash';
+import { EventCreateSchemaT } from '@/entities/event';
+import { searchSetsAction } from '../actions/searchSets.action';
 
 interface EventSetChipsProps {
-  formMethods: UseFormReturn<EventCreateSchemaT>
+    formMethods: UseFormReturn<EventCreateSchemaT>
 }
 
 interface SetOption {
-  value: string
-  content: string
-  name: string
-  code: string
+    value: string
+    content: string
+    name: string
+    code: string
 }
 
 export const EventSetChips: FC<EventSetChipsProps> = ({
-  formMethods,
+    formMethods,
 }) => {
-  const { watch, setValue } = formMethods
-  const selectedSetCodes = watch('setCodes') || []
-  const [selectedSets, setSelectedSets] = useState<SetOption[]>([])
+    const { watch, setValue } = formMethods;
 
-  // Состояния для поиска
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [setOptions, setSetOptions] = useState<SetOption[]>([])
-  const [isSetsLoading, setIsSetsLoading] = useState(false)
-  const [setFilter, setSetFilter] = useState('')
-  const searchInputRef = useRef<HTMLInputElement>(null)
+    const selectedSetCodes = useMemo(() => watch('setCodes') || [], [watch]);
+    const [selectedSets, setSelectedSets] = useState<SetOption[]>([]);
 
-  // Асинхронная загрузка сетов при изменении фильтра
-  useEffect(() => {
-    const searchSets = async () => {
-      if (!setFilter.trim()) {
-        setSetOptions([])
-        return
-      }
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [setOptions, setSetOptions] = useState<SetOption[]>([]);
+    const [setFilter, setSetFilter] = useState('');
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const [isPending, startTransition] = useTransition();
 
-      setIsSetsLoading(true)
-      try {
-        const sets = await searchSetsAction(setFilter)
-        const options = sets.map(set => ({
-          value: set.code,
-          content: set.name,
-          name: set.name,
-          code: set.code
-        }))
-        setSetOptions(options)
-      } catch (error) {
-        console.error('Error loading sets:', error)
-        setSetOptions([])
-      } finally {
-        setIsSetsLoading(false)
-      }
-    }
+    const debouncedSearch = debounce(async (filter: string) => {
+        if (filter.trim().length < 3) {
+            setSetOptions([])
+            return
+        }
 
-    const timeoutId = setTimeout(searchSets, 300) // Дебаунс 300мс
-    return () => clearTimeout(timeoutId)
-  }, [setFilter])
+    startTransition(async () => {
+        try {
+            const sets = await searchSetsAction(filter)
+            const options = sets.map(set => ({
+                value: set.code,
+                content: set.name,
+                name: set.name,
+                code: set.code
+            }))
+            setSetOptions(options)
+        } catch (error) {
+            console.error('Error loading sets:', error)
+            setSetOptions([])
+        }
+    })}, 300);
 
-  const handleAddSet = useCallback(() => {
-    setIsPopoverOpen(true)
-    setSetFilter('') // Сбрасываем фильтр
-    // Фокус на инпут после открытия попапа
-    setTimeout(() => {
-      searchInputRef.current?.focus()
-    }, 0)
-  }, [])
+    useEffect(() => {
+        return () => {
+            debouncedSearch.cancel()
+        }
+    }, [debouncedSearch]);
 
-  const handleSetSelect = useCallback((set: SetOption) => {
-    // Добавляем сет в selectedSets, если его там нет
-    setSelectedSets(prev => {
-      if (prev.some(s => s.code === set.code)) {
-        return prev
-      }
-      return [...prev, set]
-    })
+    useEffect(() => {
+        debouncedSearch(setFilter)
+    }, [setFilter, debouncedSearch]);
 
-    // Добавляем код сета в форму
-    const newSetCodes = [...new Set([...selectedSetCodes, set.code])]
-    setValue('setCodes', newSetCodes, { shouldValidate: true })
+    const handleAddSet = useCallback(() => {
+        setIsPopoverOpen(true);
+        setSetFilter(''); // Сбрасываем фильтр
+        // Фокус на инпут после открытия попапа
+        setTimeout(() => {
+        searchInputRef.current?.focus()
+        }, 0);
+    }, []);
+
+    const handleSetSelect = useCallback((set: SetOption) => {
+        // Добавляем сет в selectedSets, если его там нет
+        setSelectedSets(prev => {
+            if (prev.some(s => s.code === set.code)) {
+                return prev
+            }
+            return [...prev, set];
+        });
+
+        const newSetCodes = [...new Set([...selectedSetCodes, set.code])];
+        setValue('setCodes', newSetCodes, { shouldValidate: true });
     
-    // Закрываем попап и очищаем состояние
-    setIsPopoverOpen(false)
-    setSetFilter('')
-  }, [selectedSetCodes, setValue])
+        setIsPopoverOpen(false);
+        setSetFilter('');
+    }, [selectedSetCodes, setValue])
 
-  const handleRemoveSet = useCallback((codeToRemove: string) => {
-    // Удаляем сет из selectedSets
-    setSelectedSets(prev => prev.filter(set => set.code !== codeToRemove))
+    const handleRemoveSet = useCallback((codeToRemove: string) => {
+        // Удаляем сет из selectedSets
+        setSelectedSets(prev => prev.filter(set => set.code !== codeToRemove));
 
-    // Удаляем код сета из формы
-    const newSetCodes = selectedSetCodes.filter(code => code !== codeToRemove)
-    setValue('setCodes', newSetCodes, { shouldValidate: true })
-  }, [selectedSetCodes, setValue])
+        // Удаляем код сета из формы
+        const newSetCodes = selectedSetCodes.filter(code => code !== codeToRemove);
+        setValue('setCodes', newSetCodes, { shouldValidate: true });
+    }, [selectedSetCodes, setValue]);
 
-  const handlePopoverClose = useCallback(() => {
-    setIsPopoverOpen(false)
-    setSetFilter('')
-  }, [])
+    const handlePopoverClose = useCallback(() => {
+        setIsPopoverOpen(false);
+        setSetFilter('');
+    }, []);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -132,7 +134,7 @@ export const EventSetChips: FC<EventSetChipsProps> = ({
               hasClear
               autoFocus
             />
-            {isSetsLoading ? (
+            {isPending ? (
               <div className="p-2 text-center">Загрузка...</div>
             ) : setOptions.length > 0 ? (
               <div className="mt-2 space-y-1 max-h-[200px] overflow-y-auto">
@@ -146,9 +148,13 @@ export const EventSetChips: FC<EventSetChipsProps> = ({
                   </div>
                 ))}
               </div>
-            ) : setFilter.trim() ? (
+            ) : setFilter.trim().length >= 3 ? (
               <div className="p-2 text-center text-gray-500 text-sm">
                 Ничего не найдено
+              </div>
+            ) : setFilter.trim() ? (
+              <div className="p-2 text-center text-gray-500 text-sm">
+                Введите минимум 3 символа для поиска
               </div>
             ) : (
               <div className="p-2 text-center text-gray-500 text-sm">
@@ -162,8 +168,9 @@ export const EventSetChips: FC<EventSetChipsProps> = ({
           view="outlined"
           size="s"
           onClick={handleAddSet}
+          className="m-auto"
         >
-          +
+          <Plus />
         </Button>
       </Popover>
     </div>

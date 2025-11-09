@@ -1,7 +1,7 @@
 'use client';
 
-import React, { type PropsWithChildren, useMemo, useEffect } from 'react';
-import { ThemeProvider, type Theme, configure } from '@gravity-ui/uikit';
+import React, { type PropsWithChildren, useMemo } from 'react';
+import { ThemeProvider, type Theme } from '@gravity-ui/uikit';
 import { miniApp, useSignal } from '@telegram-apps/sdk-react';
 
 interface TelegramThemeProviderProps extends PropsWithChildren {

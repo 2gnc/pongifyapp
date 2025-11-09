@@ -54,7 +54,7 @@ export const Navigation: FC<Props> = ({ url }) => {
                         </Divider>
                     )
                 }
-                {hasOwnedClub && <NavItem title={user?.ownedClub?.clubName!} link={ownedClubLink} onClose={handleCloseSheet} />}
+                {hasOwnedClub && <NavItem title={user?.ownedClub?.clubName || ''} link={ownedClubLink} onClose={handleCloseSheet} />}
                 {hasAdminnedClubs && user.admin.map(({ clubId, clubName }) => <NavItem key={clubId} title={clubName} link={`/clubs/${clubId}`} onClose={handleCloseSheet} /> )}
                 <Divider align='center' className='mt-2'>
                     <Comments className='mr-2' />
