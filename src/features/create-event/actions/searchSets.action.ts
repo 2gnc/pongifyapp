@@ -5,7 +5,6 @@ import { prisma } from '@/shared/prisma';
 export async function searchSetsAction(searchQuery: string) {
   try {
     if (!searchQuery || searchQuery.trim().length === 0) {
-      // Возвращаем пустой массив при пустом запросе
       return [];
     }
 
@@ -33,7 +32,7 @@ export async function searchSetsAction(searchQuery: string) {
           },
         ],
       },
-      take: 20, // Ограничиваем количество результатов
+      take: 20,
       orderBy: {
         name: 'asc',
       },
@@ -46,7 +45,6 @@ export async function searchSetsAction(searchQuery: string) {
       },
     });
 
-    console.log('🌏🌏🌏🌏', sets);
     return sets;
   } catch (error) {
     console.error('Error searching sets:', error);

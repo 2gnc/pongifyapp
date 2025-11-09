@@ -1,8 +1,7 @@
 'use client'
 
 import { type FC, useCallback, useMemo } from 'react';
-import { UserLabel, Flex, Text } from '@gravity-ui/uikit';
-import { CrownDiamond, Person, PersonXmark, PersonWorker } from '@gravity-ui/icons';
+import { Flex, Text } from '@gravity-ui/uikit';
 import { openTelegramLink } from '@telegram-apps/sdk-react';
 import { ClubRole } from '@/generated/prisma';
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type FC } from 'react';
 import { useTranslations } from 'next-intl';
-import { Text, SegmentedRadioGroup, List, Flex } from '@gravity-ui/uikit';
+import { SegmentedRadioGroup, List, Flex } from '@gravity-ui/uikit';
 import { ClubMembersT } from '@/entities/club';
 import { MembersListItem } from './MemberListItem';
 

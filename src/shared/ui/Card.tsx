@@ -46,3 +46,5 @@ export const Card: FC<PropsWithChildren<Props>> = memo(({ title, children, color
         </Flex>
     );
 });
+
+Card.displayName = 'Card';

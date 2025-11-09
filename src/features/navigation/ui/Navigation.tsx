@@ -2,7 +2,7 @@
 
 import { type FC, useState, useCallback, useEffect } from 'react';
 import { NavButton } from './NavButton';
-import { Sheet, List, Divider } from '@gravity-ui/uikit';
+import { Sheet, Divider } from '@gravity-ui/uikit';
 import { CrownDiamond, Comments, Bookmark } from '@gravity-ui/icons';
 import { mapUrlToPage } from '../lib/map-url-to-page';
 import { useCurrentUser, checkIsSuperAdmin } from '@/features/auth';
@@ -42,7 +42,6 @@ export const Navigation: FC<Props> = ({ url }) => {
     const hasOwnedClub = Boolean(user?.ownedClub);
     const hasAdminnedClubs = Boolean(user?.admin.length);
 
-    console.log('😄', ownedClubLink);
     return (
         <>
             <NavButton onClick={handleOpenSheet} />

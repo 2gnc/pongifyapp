@@ -2,16 +2,14 @@
 
 import { type FC } from 'react';
 import { useTranslations } from 'next-intl';
-import { Text } from '@gravity-ui/uikit';
 import { PageLayout } from '@/shared/ui';
 
 import { EventCreateForm } from '@/features/create-event';
 import { useNavigate } from '@/features/navigation';
 
-type Props = {}
-
-export const EventCreatePage: FC<Props> = ({ }) => {
+export const EventCreatePage: FC = ({ }) => {
     const t = useTranslations('i18n');
+    
     const { goBack } = useNavigate();
 
     return (

@@ -22,20 +22,16 @@ type PropsT = {
     members: ClubMembersT;
 };
 
-export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) => {
+export const ClubDetails: FC<PropsT> = ({ club, owner, members }) => {
     const t = useTranslations('i18n.club');
     const { goToClubMembers, goToClubEvents, goToCreateEvent } = useNavigate();
 
     const canCreateEventRequest = useMemo<JudgeRulingRequest>(() => ({ type: JudgeRuling.CAN_CREATE_EVENT, clubId: club.id }), [club.id]);
-    const { loading: canCreateEventLoading, permission: canCreateEvent } = useJudge(canCreateEventRequest);
+    const { permission: canCreateEvent } = useJudge(canCreateEventRequest);
     const canManageMembersRequest = useMemo<JudgeRulingRequest>(() => ({ type: JudgeRuling.CAN_MANAGE_MEMBERS, clubId: club.id }), [club.id]);
-    const { loading: canManageMembersLoading, permission: canManageMembers } = useJudge(canManageMembersRequest);
+    const { permission: canManageMembers } = useJudge(canManageMembersRequest);
     const canSeeFinancialInfoRequest = useMemo<JudgeRulingRequest>(() => ({ type: JudgeRuling.CAN_SEE_FINANCIAL_INFO, clubId: club.id }), [club.id]);
-    const { loading: canSeeFinancialInfoLoading, permission: canSeeFinancialInfo } = useJudge(canSeeFinancialInfoRequest);
-
-
-
-    const isUserOwner = club.ownerId === currentUser.id;
+    const { permission: canSeeFinancialInfo } = useJudge(canSeeFinancialInfoRequest);
 
     if (!owner) return null;
 
@@ -105,27 +101,6 @@ export const ClubDetails: FC<PropsT> = ({ club, currentUser, owner, members }) =
                     />
                 )}
             </div>
-            {/* <TabProvider value={activeTab} onUpdate={setActiveTab}> */}
-            {/* <TabList className='mt-2'> */}
-            {/* <Tab value="first"><Calendar width={24} height={24} /></Tab> */}
-            {/* <Tab value="third" disabled><ChartLine width={24} height={24} /></Tab> */}
-            {/* { canSeeFinancialInfo && <Tab value="fourth" disabled><ChartLineLabel width={24} height={24} /></Tab> } */}
-            {/* { canManageMembers && <Tab value="fifth"><PersonPlus width={24} height={24} /></Tab> } */}
-            {/* </TabList> */}
-            {/* <div> */}
-            {/* <TabPanel value="first">
-                        <EventsList
-                            canCreateEventLoading={canCreateEventLoading}
-                            canCreateEvent={canCreateEvent}
-
-                            clubId={club.id}
-                        />
-                    </TabPanel> */}
-            {/* <TabPanel value="third">Статистика</TabPanel> */}
-            {/* { canSeeFinancialInfo && <TabPanel value="fourth">Учет</TabPanel> } */}
-            {/* { canManageMembers && <TabPanel value="fifth">Инвайты</TabPanel> } */}
-            {/* </div> */}
-            {/* </TabProvider> */}
         </PageLayout>
     );
 };

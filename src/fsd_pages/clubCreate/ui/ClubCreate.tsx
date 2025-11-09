@@ -7,9 +7,7 @@ import { PageLayout } from '@/shared/ui';
 
 import { ClubCreateForm } from '@/features/create-club';
 
-type Props = {}
-
-export const ClubCreate: FC<Props> = ({ }) => {
+export const ClubCreate: FC = () => {
     const t = useTranslations('i18n');
 
     return (

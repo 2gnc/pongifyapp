@@ -21,5 +21,20 @@
             "group": "Default"
         }
     ],
-    "favorites.sortOrder": "MANUAL"
+    "favorites.sortOrder": "MANUAL",
+    "eslint.enable": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "eslint.workingDirectories": [
+        {
+            "mode": "auto"
+        }
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }

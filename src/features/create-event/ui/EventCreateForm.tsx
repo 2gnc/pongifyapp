@@ -10,7 +10,8 @@ import { type EventCreateSchemaT, eventCreateSchema, createEventFormDefaultValue
 import { TextArea, Select } from '@gravity-ui/uikit';
 import { useEventTypeOptions } from '@/shared/lib/select-options';
 import { EventTypeButtons } from './EventTypeButtons';
-import { searchSetsAction } from '../actions/search-sets.action';
+import { EventSetChips } from './EventSetChips';
+import { searchSetsAction } from '../actions/searchSets.action';
 
 type Props = {}
 
@@ -47,7 +48,6 @@ export const EventCreateForm: FC<Props> = ({}) => {
                     value: set.code,
                     content: set.name,
                 }));
-                console.log('🧙🏻', options, sets);
                 setSetOptions(options);
             } catch (error) {
                 console.error('Error loading sets:', error);
@@ -87,29 +87,12 @@ export const EventCreateForm: FC<Props> = ({}) => {
             </FormRow>
 
             <FormRow label={t('sets')} direction="column" required>
-                <Select
-                    multiple
-                    filterable
-                    hasClear
-                    onUpdate={(value) => setValue('setCodes', value as string[])}
-                    value={selectedSetCodes}
-                    placeholder={t('setsPlaceholder')}
-                    validationState={errors.setCodes && 'invalid'}
-                    errorMessage={errors.setCodes?.message}
-                    errorPlacement="outside"
-                    options={setOptions}
-                    loading={isSetsLoading}
-                    filter={setFilter}
-                    onFilterChange={setSetFilter}
-                    filterOption={(option, filter) => {
-                        if (!filter) return true;
-                        const searchText = filter.toLowerCase();
-                        // Ищем по value (код сета) и content (название + код)
-                        const optionValue = String(option.value).toLowerCase();
-                        const optionContent = String(option.content).toLowerCase();
-                        return optionValue.includes(searchText) || optionContent.includes(searchText);
-                    }}
-                />
+                {errors.setCodes && (
+                    <div className="text-accent pb-2">
+                        {errors.setCodes?.message}
+                    </div>
+                )}
+                <EventSetChips formMethods={formMethods} />
             </FormRow>
 
         </form>

@@ -16,10 +16,9 @@ type Props = {
 export const MembersPage: FC<Props> = ({ tab, members }) => {
     const t = useTranslations('i18n.membersList');
     const { id } = useParams();
+    const { goBack } = useNavigate();
 
     if (typeof id !== 'string') return null;
-
-    const { goBack } = useNavigate();
 
     return (
         <PageLayout title={`${t('title')}`} onBack={goBack}>

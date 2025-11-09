@@ -28,7 +28,7 @@ export const EventTypeButtons: FC<EventTypeButtonsProps> = ({
         <Button
           key={option.value}
           view={currentValue === option.value ? 'outlined-action' : 'outlined'}
-          size="l"
+          size='m'
           onClick={() => handleOptionClick(option.value)}
           className="whitespace-nowrap"
         >
